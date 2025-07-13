@@ -30,7 +30,13 @@
         <div class="col-md-6">
           <!-- Выбор цвета рамки (появляется после выбора профиля) -->
           <div v-if="selectedProfile && frameColorOptions.length > 0">
-            <RadioGroup legend="Цвет рамки" name="frame-color" v-model="selectedFrameColor" :options="frameColorOptions" />
+            <RadioGroup 
+              legend="Цвет рамки" 
+              name="frame-color" 
+              v-model="selectedFrameColor" 
+              :options="frameColorOptions" 
+              @option-click="onFrameColorClick"
+            />
           </div>
         </div>
 
@@ -87,7 +93,7 @@ const selectedRal = ref('');
 const showRalPicker = ref(false);
 const width = ref(null);
 const height = ref(null);
-const selectedAddons = ref({}); // <--- Для хранения выбора доп. опций
+const selectedAddons = ref({});
 const submittedValue = ref(null);
 
 // --- Исходные данные --- //
@@ -116,10 +122,19 @@ const frameColorOptions = computed(() => {
   if (!selectedProfile.value) return [];
   const selected = rawData.value.find(item => item.id === selectedProfile.value);
   if (!selected || !selected.frameColors) return [];
-  return selected.frameColors.map(colorId => ({ value: allFrameColors[colorId].id, label: allFrameColors[colorId].name }));
+  return selected.frameColors.map(colorId => {
+    const color = allFrameColors[colorId];
+    const option = { 
+      value: color.id, 
+      label: color.name 
+    };
+    if (color.id === 'Ral' && selectedRal.value) {
+      option.extra = `(${selectedRal.value})`;
+    }
+    return option;
+  });
 });
 
-// Группы доп. опций для выбранного профиля
 const addonGroups = computed(() => {
   if (!selectedProfile.value) return [];
   const selected = rawData.value.find(item => item.id === selectedProfile.value);
@@ -148,7 +163,6 @@ const calculate = () => {
 
   const finalFrameColor = frameColorData.id === 'Ral' ? `RAL ${selectedRal.value}` : frameColorData.name;
 
-  // Собираем выбранные доп. опции
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
     const selectedOption = group.options.find(opt => opt.id === selectedOptionId);
@@ -167,6 +181,12 @@ const calculate = () => {
 };
 
 // --- Обработчики событий --- //
+const onFrameColorClick = (value) => {
+  if (value === 'Ral') {
+    showRalPicker.value = true;
+  }
+};
+
 const onRalColorSelect = (ralId) => {
   selectedRal.value = ralId;
   showRalPicker.value = false;
@@ -182,7 +202,6 @@ watch(selectedProfile, (newProfileId) => {
   selectedCanvas.value = (profile.canvases || []).length > 0 ? profile.canvases[0] : '';
   selectedFrameColor.value = (profile.frameColors || []).length > 0 ? profile.frameColors[0] : '';
 
-  // Инициализируем выбор для доп. опций
   const newAddons = {};
   (profile.addons || []).forEach(group => {
     if (group.options.length > 0) {
@@ -198,16 +217,14 @@ watch(selectedCanvas, (newCanvasId) => {
 });
 
 watch(selectedFrameColor, (newFrameColor) => {
-  if (newFrameColor === 'Ral') {
-    showRalPicker.value = true;
-  } else {
+  if (newFrameColor !== 'Ral') {
     selectedRal.value = '';
   }
 });
 
 watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height, selectedAddons], () => {
   calculate();
-}, { deep: true }); // deep: true для отслеживания изменений в объекте selectedAddons
+}, { deep: true });
 
 // --- Хук жизненного цикла --- //
 onMounted(() => {

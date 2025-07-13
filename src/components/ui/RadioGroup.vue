@@ -14,6 +14,7 @@
         :value="option.value" 
         :checked="modelValue === option.value"
         @change="$emit('update:modelValue', option.value)"
+        @click="$emit('option-click', option.value)"
       />
       <label 
         class="form-check-label" 
