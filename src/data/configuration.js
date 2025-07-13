@@ -35,7 +35,7 @@ export const productConfiguration = [
     name: 'Рамочная',
     default: true,
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Standartnoe', 'Antikoshka', 'Antipylca'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: [
@@ -87,7 +87,7 @@ export const productConfiguration = [
     id: 'VstavnieVsn',
     name: 'Вставные VSN',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Ultravyu', 'AntipylAntimoshka', 'Antikoshka', 'Standartnoe'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: [
@@ -97,6 +97,14 @@ export const productConfiguration = [
         options: [
           { id: 'Plunger', name: 'Плунжер' },
         ]
+      },
+      {
+        id: 'ReinforcedInstall',
+        name: 'Усиленный монтаж?',
+        options: [
+          { id: 'Yes', name: 'Да' },
+          { id: 'No', name: 'Нет' },
+        ]
       }
     ]
   },
@@ -104,7 +112,7 @@ export const productConfiguration = [
     id: 'Razdvizhnaya',
     name: 'Раздвижная',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['DiamondSteelNevidimaya', 'AntipticaMetallicheskaya', 'Antipylca'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
@@ -113,7 +121,7 @@ export const productConfiguration = [
     id: 'UsilenniyProfil',
     name: 'Усиленный профиль',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Standartnoe', 'Antikoshka', 'Ultravyu', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: [
@@ -130,7 +138,7 @@ export const productConfiguration = [
     id: 'DverSetka',
     name: 'Дверь-сетка',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Antipylca', 'Standartnoe', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: [
@@ -148,7 +156,7 @@ export const productConfiguration = [
     id: 'DverSetkaUsilennaya',
     name: 'Дверь-сетка усиленная',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['AntipticaMetallicheskaya', 'DiamondSteelNevidimaya', 'Antikoshka', 'AntipylAntimoshka', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: [
@@ -165,7 +173,7 @@ export const productConfiguration = [
     id: 'PlisseRussia', 
     name: 'Плиссе Россия', 
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases:  ['AntipticaMetallicheskaya', 'Antikoshka', 'Ultravyu'], 
     frameColors: ['White', 'Brown', 'Ral'] 
   },
@@ -173,7 +181,7 @@ export const productConfiguration = [
     id: 'PlisseItaly', 
     name: 'Плиссе Италия', 
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Standartnoe', 'Antikoshka', 'AntipylAntimoshka'], 
     frameColors: ['White', 'Brown', 'Ral'] 
   },
@@ -181,7 +189,7 @@ export const productConfiguration = [
     id: 'RulonnayaItaly',
     name: 'Рулонная Италия',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['AntipylAntimoshka', 'Standartnoe', 'Antikoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
@@ -190,7 +198,7 @@ export const productConfiguration = [
     id: 'RulonnayaRussia',
     name: 'Рулонная Россия',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Ultravyu', 'Antipylca', 'AntipticaMetallicheskaya', 'DiamondSteelNevidimaya'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
@@ -199,7 +207,7 @@ export const productConfiguration = [
     id: 'Perekatka',
     name: 'Перекатка',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Standartnoe', 'Antikoshka', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
@@ -208,7 +216,7 @@ export const productConfiguration = [
     id: 'UsilenniyProfil42mm',
     name: 'Усиленный профиль 42мм',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['AntipticaMetallicheskaya', 'DiamondSteelNevidimaya', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
@@ -217,7 +225,7 @@ export const productConfiguration = [
     id: 'VstavnieVsn45',
     name: 'Вставные VSN 45',
     width: 1000,
-    height: 1500,
+    height: 1000,
     canvases: ['Antipylca', 'Antikoshka', 'Standartnoe', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
     addons: []
