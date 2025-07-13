@@ -29,7 +29,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from 'vue';
-import { allRalColors } from '../../data/productData.js';
+import { allRalColors } from '../../data';
 
 defineProps({
   show: {
