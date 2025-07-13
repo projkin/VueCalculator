@@ -29,7 +29,7 @@ export const allFrameColors = {
   Ral: { id: 'Ral', name: 'RAL' },
 };
 
-// Мастер-список цветов RAL (с примерами)
+// Мастер-список цветов RAL
 export const allRalColors = [
   { id: '1000', name: 'RAL 1000', hex: '#CABE8E' },
   { id: '1001', name: 'RAL 1001', hex: '#CEB58C' },
@@ -252,10 +252,54 @@ export const productConfiguration = [
     id: 'Ramochnaya',
     name: 'Рамочная',
     default: true,
-    width: 1200,
+    width: 1000,
     height: 1500,
     canvases: ['Standartnoe', 'Antikoshka', 'Antipylca'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: [
+      {
+        id: 'Fasteners',
+        name: 'Крепления',
+        options: [
+          { id: 'Plunger', name: 'Плунжер' },
+          { id: 'ZMetal', name: 'Z-крепление металл' },
+          { id: 'ZPlastic', name: 'Z-крепление пластиковое' },
+        ]
+      },
+      {
+        id: 'Corners',
+        name: 'Углы',
+        options: [
+          { id: 'Metal', name: 'Металлические' },
+          { id: 'Plastic', name: 'Пластиковые' },
+        ]
+      },
+      {
+        id: 'Handles',
+        name: 'Ручки',
+        options: [
+          { id: 'Metal', name: 'Металлические' },
+          { id: 'Silicon', name: 'Силиконовые' },
+        ]
+      },
+      {
+        id: 'WindowType',
+        name: 'На какие окна ставим?',
+        options: [
+          { id: 'Aluminum', name: 'Алюминиевые' },
+          { id: 'Plastic', name: 'Пластиковые' },
+          { id: 'NoInstall', name: 'Без монтажа' },
+        ]
+      },
+      {
+        id: 'ReinforcedInstall',
+        name: 'Усиленный монтаж?',
+        options: [
+          { id: 'Yes', name: 'Да' },
+          { id: 'No', name: 'Нет' },
+        ]
+      }
+    ]
   },
   {
     id: 'VstavnieVsn',
@@ -264,6 +308,15 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Ultravyu', 'AntipylAntimoshka', 'Antikoshka', 'Standartnoe'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: [
+      {
+        id: 'Fasteners',
+        name: 'Крепления',
+        options: [
+          { id: 'Plunger', name: 'Плунжер' },
+        ]
+      }
+    ]
   },
   {
     id: 'Razdvizhnaya',
@@ -272,6 +325,7 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['DiamondSteelNevidimaya', 'AntipticaMetallicheskaya', 'Antipylca'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
   {
     id: 'UsilenniyProfil',
@@ -280,6 +334,15 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Standartnoe', 'Antikoshka', 'Ultravyu', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: [
+      {
+        id: 'Fasteners',
+        name: 'Крепления',
+        options: [
+          { id: 'ZMetal', name: 'Z-крепление металл' },
+        ]
+      }
+    ]
   },
   {
     id: 'DverSetka',
@@ -288,6 +351,16 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Antipylca', 'Standartnoe', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: [
+      {
+        id: 'Handles',
+        name: 'Ручки',
+        options: [
+          { id: 'Metal', name: 'Металлические' },
+          { id: 'Silicon', name: 'Силиконовые' },
+        ]
+      }
+    ]
   },
   {
     id: 'DverSetkaUsilennaya',
@@ -296,6 +369,15 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['AntipticaMetallicheskaya', 'DiamondSteelNevidimaya', 'Antikoshka', 'AntipylAntimoshka', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: [
+      {
+        id: 'Handles',
+        name: 'Ручки',
+        options: [
+          { id: 'Metal', name: 'Металлические' },
+        ]
+      }
+    ]
   },
   { 
     id: 'PlisseRussia', 
@@ -303,7 +385,8 @@ export const productConfiguration = [
     width: 1000,
     height: 1500,
     canvases:  ['AntipticaMetallicheskaya', 'Antikoshka', 'Ultravyu'], 
-    frameColors: ['White', 'Brown', 'Ral'] 
+    frameColors: ['White', 'Brown', 'Ral'],
+    addons: []
   },
   { 
     id: 'PlisseItaly', 
@@ -311,7 +394,8 @@ export const productConfiguration = [
     width: 1000,
     height: 1500,
     canvases: ['Standartnoe', 'Antikoshka', 'AntipylAntimoshka'], 
-    frameColors: ['White', 'Brown', 'Ral'] 
+    frameColors: ['White', 'Brown', 'Ral'],
+    addons: []
   },
   {
     id: 'RulonnayaItaly',
@@ -320,6 +404,7 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['AntipylAntimoshka', 'Standartnoe', 'Antikoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
   {
     id: 'RulonnayaRussia',
@@ -328,6 +413,7 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Ultravyu', 'Antipylca', 'AntipticaMetallicheskaya', 'DiamondSteelNevidimaya'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
   {
     id: 'Perekatka',
@@ -336,6 +422,7 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Standartnoe', 'Antikoshka', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
   {
     id: 'UsilenniyProfil42mm',
@@ -344,6 +431,7 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['AntipticaMetallicheskaya', 'DiamondSteelNevidimaya', 'Ultravyu'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
   {
     id: 'VstavnieVsn45',
@@ -352,5 +440,6 @@ export const productConfiguration = [
     height: 1500,
     canvases: ['Antipylca', 'Antikoshka', 'Standartnoe', 'AntipylAntimoshka'],
     frameColors: ['White', 'Brown', 'Gray', 'Ral'],
+    addons: []
   },
 ];

@@ -33,6 +33,16 @@
             <RadioGroup legend="Цвет рамки" name="frame-color" v-model="selectedFrameColor" :options="frameColorOptions" />
           </div>
         </div>
+
+        <!-- Дополнительные опции -->
+        <div v-for="addonGroup in addonGroups" :key="addonGroup.id" class="col-md-6">
+          <RadioGroup
+            :legend="addonGroup.name"
+            :name="addonGroup.id"
+            v-model="selectedAddons[addonGroup.id]"
+            :options="addonGroup.options.map(opt => ({ value: opt.id, label: opt.name }))"
+          />
+        </div>
       </BaseForm>
     </div>
     <div v-if="submittedValue" class="mt-4 alert alert-success">
@@ -42,6 +52,12 @@
       <p class="mb-1"><strong>Цвет полотна:</strong> {{ submittedValue.color }}</p>
       <p class="mb-1"><strong>Цвет рамки:</strong> {{ submittedValue.frameColor }}</p>
       <p class="mb-0"><strong>Размер:</strong> {{ submittedValue.width }} x {{ submittedValue.height }} мм</p>
+      <template v-if="submittedValue.addons && submittedValue.addons.length > 0">
+        <hr class="my-2">
+        <div v-for="addon in submittedValue.addons" :key="addon.group">
+          <p class="mb-1"><strong>{{ addon.group }}:</strong> {{ addon.value }}</p>
+        </div>
+      </template>
     </div>
 
     <!-- Панель выбора RAL -->
@@ -71,6 +87,7 @@ const selectedRal = ref('');
 const showRalPicker = ref(false);
 const width = ref(null);
 const height = ref(null);
+const selectedAddons = ref({}); // <--- Для хранения выбора доп. опций
 const submittedValue = ref(null);
 
 // --- Исходные данные --- //
@@ -99,21 +116,14 @@ const frameColorOptions = computed(() => {
   if (!selectedProfile.value) return [];
   const selected = rawData.value.find(item => item.id === selectedProfile.value);
   if (!selected || !selected.frameColors) return [];
+  return selected.frameColors.map(colorId => ({ value: allFrameColors[colorId].id, label: allFrameColors[colorId].name }));
+});
 
-  return selected.frameColors.map(colorId => {
-    const color = allFrameColors[colorId];
-    const option = { 
-      value: color.id, 
-      label: color.name 
-    };
-
-    // Если это опция RAL и код RAL уже выбран, добавляем его в `extra`
-    if (color.id === 'Ral' && selectedRal.value) {
-      option.extra = `(${selectedRal.value})`;
-    }
-
-    return option;
-  });
+// Группы доп. опций для выбранного профиля
+const addonGroups = computed(() => {
+  if (!selectedProfile.value) return [];
+  const selected = rawData.value.find(item => item.id === selectedProfile.value);
+  return selected?.addons || [];
 });
 
 // --- Логика расчета --- //
@@ -125,10 +135,7 @@ const calculate = () => {
   const colorData = allColors[selectedColor.value];
   const frameColorData = allFrameColors[selectedFrameColor.value];
 
-  // Если выбран RAL, но код еще не указан, просто выходим, не сбрасывая результат
-  if (frameColorData?.id === 'Ral' && !selectedRal.value) {
-    return;
-  }
+  if (frameColorData?.id === 'Ral' && !selectedRal.value) { return; }
 
   const requiresCanvas = (profileData.canvases || []).length > 0;
   const requiresColor = canvasData && (canvasData.colors || []).length > 0;
@@ -141,6 +148,13 @@ const calculate = () => {
 
   const finalFrameColor = frameColorData.id === 'Ral' ? `RAL ${selectedRal.value}` : frameColorData.name;
 
+  // Собираем выбранные доп. опции
+  const addons = (profileData.addons || []).map(group => {
+    const selectedOptionId = selectedAddons.value[group.id];
+    const selectedOption = group.options.find(opt => opt.id === selectedOptionId);
+    return { group: group.name, value: selectedOption?.name || 'Нет' };
+  });
+
   submittedValue.value = {
     profile: profileData.name,
     canvas: canvasData?.name || 'Нет',
@@ -148,6 +162,7 @@ const calculate = () => {
     frameColor: finalFrameColor,
     width: width.value,
     height: height.value,
+    addons: addons,
   };
 };
 
@@ -166,6 +181,15 @@ watch(selectedProfile, (newProfileId) => {
   height.value = profile.height || null;
   selectedCanvas.value = (profile.canvases || []).length > 0 ? profile.canvases[0] : '';
   selectedFrameColor.value = (profile.frameColors || []).length > 0 ? profile.frameColors[0] : '';
+
+  // Инициализируем выбор для доп. опций
+  const newAddons = {};
+  (profile.addons || []).forEach(group => {
+    if (group.options.length > 0) {
+      newAddons[group.id] = group.options[0].id;
+    }
+  });
+  selectedAddons.value = newAddons;
 });
 
 watch(selectedCanvas, (newCanvasId) => {
@@ -181,9 +205,9 @@ watch(selectedFrameColor, (newFrameColor) => {
   }
 });
 
-watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height], () => {
+watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height, selectedAddons], () => {
   calculate();
-});
+}, { deep: true }); // deep: true для отслеживания изменений в объекте selectedAddons
 
 // --- Хук жизненного цикла --- //
 onMounted(() => {
