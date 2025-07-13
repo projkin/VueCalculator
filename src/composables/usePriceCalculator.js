@@ -20,11 +20,6 @@ export function usePriceCalculator() {
     const colorData = allColors[selectedColorId];
     let frameColorForPrice = selectedFrameColorId;
 
-    // Правило: если выбран RAL, для поиска цены используем White
-    if (frameColorForPrice === 'Ral') {
-      frameColorForPrice = 'White';
-    }
-
     const requiresCanvas = (profileData.canvases || []).length > 0;
     const requiresColor = canvasData && (canvasData.colors || []).length > 0;
     const requiresFrameColor = (profileData.frameColors || []).length > 0;
