@@ -84,9 +84,10 @@ import InputSelect from './ui/InputSelect.vue';
 import RadioGroup from './ui/RadioGroup.vue';
 import InputNumber from './ui/InputNumber.vue';
 import RalColorPicker from './ui/RalColorPicker.vue';
-import { productConfiguration, allCanvases, allColors, allFrameColors, priceMatrix } from '../data';
+import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data';
+import { usePriceCalculator } from '../composables/usePriceCalculator';
 
-// --- Реактивные переменные --- //
+// --- Реактивные переменные ---
 const selectedProfile = ref('');
 const selectedCanvas = ref('');
 const selectedColor = ref('');
@@ -98,10 +99,13 @@ const height = ref(null);
 const selectedAddons = ref({});
 const submittedValue = ref(null);
 
-// --- Исходные данные --- //
+// --- Исходные данные ---
 const rawData = ref(productConfiguration);
 
-// --- Вычисляемые свойства (Computed) --- //
+// --- Использование нового композита для расчета цены ---
+const { calculateTotalPrice } = usePriceCalculator();
+
+// --- Вычисляемые свойства (Computed) ---
 const profileOptions = computed(() => {
   return rawData.value.map(item => ({ value: item.id, text: item.name }));
 });
@@ -143,44 +147,26 @@ const addonGroups = computed(() => {
   return selected?.addons || [];
 });
 
-// --- Логика расчета --- //
+// --- Логика расчета ---
 const calculate = () => {
   const profileData = rawData.value.find(p => p.id === selectedProfile.value);
   if (!profileData) { submittedValue.value = null; return; }
 
   const canvasData = allCanvases[selectedCanvas.value];
   const colorData = allColors[selectedColor.value];
-  let frameColorForPrice = selectedFrameColor.value;
-
-  // Правило: если выбран RAL, для поиска цены используем White
-  if (frameColorForPrice === 'Ral') {
-    frameColorForPrice = 'White';
-  }
-
-  const requiresCanvas = (profileData.canvases || []).length > 0;
-  const requiresColor = canvasData && (canvasData.colors || []).length > 0;
-  const requiresFrameColor = (profileData.frameColors || []).length > 0;
-
-  if (requiresCanvas && !canvasData) { submittedValue.value = null; return; }
-  if (requiresColor && !colorData) { submittedValue.value = null; return; }
-  if (requiresFrameColor && !selectedFrameColor.value) { submittedValue.value = null; return; }
-  if (selectedFrameColor.value === 'Ral' && !selectedRal.value) { return; } // Не сбрасываем, ждем выбора
-  if (!width.value || !height.value) { submittedValue.value = null; return; }
-
-  let pricePerSqm = 0;
-  try {
-    const foundPrice = priceMatrix[selectedProfile.value]?.[selectedCanvas.value]?.[frameColorForPrice];
-    if (foundPrice !== undefined) {
-      pricePerSqm = foundPrice;
-    }
-  } catch (e) {
-    console.warn('Цена для комбинации не найдена, будет использован 0.');
-  }
-
-  const area = (width.value * height.value) / 1000000;
-  const totalPrice = area * pricePerSqm;
 
   const finalFrameColor = selectedFrameColor.value === 'Ral' ? `RAL ${selectedRal.value}` : allFrameColors[selectedFrameColor.value]?.name;
+
+  const totalPrice = calculateTotalPrice(
+    selectedProfile.value,
+    selectedCanvas.value,
+    selectedColor.value,
+    selectedFrameColor.value,
+    selectedRal.value,
+    width.value,
+    height.value,
+    selectedAddons.value
+  );
 
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
@@ -196,11 +182,11 @@ const calculate = () => {
     width: width.value,
     height: height.value,
     addons: addons,
-    totalPrice: totalPrice.toFixed(2), // <--- Итоговая цена
+    totalPrice: totalPrice.toFixed(2),
   };
 };
 
-// --- Обработчики событий --- //
+// --- Обработчики событий ---
 const onFrameColorClick = (value) => {
   if (value === 'Ral') {
     showRalPicker.value = true;
@@ -212,7 +198,7 @@ const onRalColorSelect = (ralId) => {
   showRalPicker.value = false;
 };
 
-// --- Наблюдатели (Watchers) --- //
+// --- Наблюдатели (Watchers) ---
 watch(selectedProfile, (newProfileId) => {
   const profile = rawData.value.find(p => p.id === newProfileId);
   if (!profile) return;
@@ -246,7 +232,7 @@ watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selec
   calculate();
 }, { deep: true });
 
-// --- Хук жизненного цикла --- //
+// --- Хук жизненного цикла ---
 onMounted(() => {
   const defaultProfile = rawData.value.find(p => p.default);
   if (defaultProfile) {
