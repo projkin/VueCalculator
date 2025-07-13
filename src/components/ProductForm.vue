@@ -64,6 +64,8 @@
           <p class="mb-1"><strong>{{ addon.group }}:</strong> {{ addon.value }}</p>
         </div>
       </template>
+      <hr class="my-2">
+      <h5 class="text-end">Итого: <strong>{{ submittedValue.totalPrice }} &#8381;</strong></h5>
     </div>
 
     <!-- Панель выбора RAL -->
@@ -82,7 +84,7 @@ import InputSelect from './ui/InputSelect.vue';
 import RadioGroup from './ui/RadioGroup.vue';
 import InputNumber from './ui/InputNumber.vue';
 import RalColorPicker from './ui/RalColorPicker.vue';
-import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/productData.js';
+import { productConfiguration, allCanvases, allColors, allFrameColors, priceMatrix } from '../data';
 
 // --- Реактивные переменные --- //
 const selectedProfile = ref('');
@@ -148,9 +150,12 @@ const calculate = () => {
 
   const canvasData = allCanvases[selectedCanvas.value];
   const colorData = allColors[selectedColor.value];
-  const frameColorData = allFrameColors[selectedFrameColor.value];
+  let frameColorForPrice = selectedFrameColor.value;
 
-  if (frameColorData?.id === 'Ral' && !selectedRal.value) { return; }
+  // Правило: если выбран RAL, для поиска цены используем White
+  if (frameColorForPrice === 'Ral') {
+    frameColorForPrice = 'White';
+  }
 
   const requiresCanvas = (profileData.canvases || []).length > 0;
   const requiresColor = canvasData && (canvasData.colors || []).length > 0;
@@ -158,10 +163,24 @@ const calculate = () => {
 
   if (requiresCanvas && !canvasData) { submittedValue.value = null; return; }
   if (requiresColor && !colorData) { submittedValue.value = null; return; }
-  if (requiresFrameColor && !frameColorData) { submittedValue.value = null; return; }
+  if (requiresFrameColor && !selectedFrameColor.value) { submittedValue.value = null; return; }
+  if (selectedFrameColor.value === 'Ral' && !selectedRal.value) { return; } // Не сбрасываем, ждем выбора
   if (!width.value || !height.value) { submittedValue.value = null; return; }
 
-  const finalFrameColor = frameColorData.id === 'Ral' ? `RAL ${selectedRal.value}` : frameColorData.name;
+  let pricePerSqm = 0;
+  try {
+    const foundPrice = priceMatrix[selectedProfile.value]?.[selectedCanvas.value]?.[frameColorForPrice];
+    if (foundPrice !== undefined) {
+      pricePerSqm = foundPrice;
+    }
+  } catch (e) {
+    console.warn('Цена для комбинации не найдена, будет использован 0.');
+  }
+
+  const area = (width.value * height.value) / 1000000;
+  const totalPrice = area * pricePerSqm;
+
+  const finalFrameColor = selectedFrameColor.value === 'Ral' ? `RAL ${selectedRal.value}` : allFrameColors[selectedFrameColor.value]?.name;
 
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
@@ -173,10 +192,11 @@ const calculate = () => {
     profile: profileData.name,
     canvas: canvasData?.name || 'Нет',
     color: colorData?.name || 'Нет',
-    frameColor: finalFrameColor,
+    frameColor: finalFrameColor || 'Нет',
     width: width.value,
     height: height.value,
     addons: addons,
+    totalPrice: totalPrice.toFixed(2), // <--- Итоговая цена
   };
 };
 
