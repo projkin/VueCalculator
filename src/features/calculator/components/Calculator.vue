@@ -61,15 +61,6 @@
     <!-- Итоговая конфигурация -->
     <ProductFormSummary :summary="submittedValue" @add-to-cart="handleAddToCart" />
 
-    <!-- Корзина -->
-    <CartList 
-      :items="cartItems" 
-      :cart-total="cartTotal" 
-      @remove-item="removeCartItem"
-      @update-item-quantity="updateItemQuantity($event.id, $event.quantity)"
-      @clear-cart="clearCart"
-    />
-
     <!-- Панель выбора RAL -->
     <RalColorPicker 
       v-model:show="showRalPicker" 
@@ -80,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, defineEmits } from 'vue';
 import BaseForm from '../../../components/ui/BaseForm.vue';
 import InputSelect from '../../../components/ui/InputSelect.vue';
 import RadioGroup from '../../../components/ui/RadioGroup.vue';
@@ -88,10 +79,10 @@ import InputNumber from '../../../components/ui/InputNumber.vue';
 import InputText from '../../../components/ui/InputText.vue';
 import RalColorPicker from '../../../components/ui/RalColorPicker.vue';
 import ProductFormSummary from './ProductFormSummary.vue';
-import CartList from '../../cart/components/CartList.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
 import { usePriceCalculator } from '../composables/usePriceCalculator.js';
-import { useCart } from '../../cart/composables/useCart.js';
+
+const emit = defineEmits(['product-configured']);
 
 // --- Реактивные переменные ---
 const selectedProfile = ref('');
@@ -111,14 +102,6 @@ const rawData = ref(productConfiguration);
 
 // --- Использование нового композита для расчета цены ---
 const { calculateTotalPrice } = usePriceCalculator();
-const { 
-  items: cartItems, 
-  cartTotal, 
-  addItem: addCartItem, 
-  removeItem: removeCartItem, 
-  updateItemQuantity, 
-  clearCart 
-} = useCart();
 
 // --- Вычисляемые свойства (Computed) ---
 const profileOptions = computed(() => {
@@ -253,7 +236,7 @@ const onRalColorSelect = (ralId) => {
 };
 
 const handleAddToCart = (summary) => {
-  addCartItem(summary);
+  emit('product-configured', summary);
 };
 
 // --- Наблюдатели (Watchers) ---
