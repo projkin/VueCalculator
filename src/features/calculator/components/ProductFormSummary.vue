@@ -16,7 +16,7 @@
     <p class="mb-1"><strong>Комментарий:</strong> {{ summary.comment }}</p>
     <hr class="my-2">
     <div class="d-flex justify-content-end align-items-center">
-      <h5 class="mb-0 me-3">Итого: <strong>{{ summary.totalPrice }} &#8381;</strong></h5>
+      <h5 class="mb-0 me-3">Итого: <strong>{{ Math.round(summary.totalPrice) }} &#8381;</strong></h5>
       <Button text="Добавить в расчет" @click="onAddToCart" />
     </div>
   </div>

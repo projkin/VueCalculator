@@ -10,7 +10,7 @@
         @update:model-value="$emit('update-quantity', $event)"
         class="mx-3"
       />
-      <strong class="me-3">{{ (parseFloat(item.totalPrice) * item.quantity).toFixed(2) }} &#8381;</strong>
+      <strong class="me-3">{{ Math.round(item.totalPrice * item.quantity) }} &#8381;</strong>
       <button class="btn btn-danger btn-sm" @click="$emit('remove')">Удалить</button>
     </div>
   </li>

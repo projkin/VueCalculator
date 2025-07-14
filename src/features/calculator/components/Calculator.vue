@@ -212,7 +212,7 @@ const calculate = () => {
     height: height.value,
     addons: addons,
     comment: comment.value,
-    totalPrice: totalPrice.toFixed(2),
+    totalPrice: totalPrice,
   };
 
   if (selectedFrameColor.value === 'Ral' && selectedRal.value) {
