@@ -45,7 +45,14 @@ export const productConfiguration = [
         options: [
           { id: 'Plunger', name: 'Плунжер' },
           { id: 'ZMetal', name: 'Z-крепление металл' },
-          { id: 'ZPlastic', name: 'Z-крепление пластиковое' },
+          { 
+            id: 'ZPlastic', 
+            name: 'Z-крепление пластиковое',
+            disables: [
+              { groupId: 'Handles', optionId: 'Metal' },
+              { groupId: 'Handles', optionId: 'Silicon' },
+            ] 
+          },
         ]
       },
       {

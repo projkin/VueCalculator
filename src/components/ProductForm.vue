@@ -47,6 +47,7 @@
             :name="addonGroup.id"
             v-model="selectedAddons[addonGroup.id]"
             :options="addonGroup.options.map(opt => ({ value: opt.id, label: opt.name }))"
+            :disabled-options="disabledAddons[addonGroup.id] || []"
           />
         </div>
       </BaseForm>
@@ -147,6 +148,35 @@ const addonGroups = computed(() => {
   return selected?.addons || [];
 });
 
+const disabledAddons = computed(() => {
+  const disabled = {};
+  if (!selectedProfile.value) return disabled;
+
+  const profile = rawData.value.find(p => p.id === selectedProfile.value);
+  if (!profile || !profile.addons) return disabled;
+
+  // Собираем все активные правила `disables`
+  const allDisablingRules = [];
+  for (const groupId in selectedAddons.value) {
+    const selectedOptionId = selectedAddons.value[groupId];
+    const group = profile.addons.find(g => g.id === groupId);
+    const option = group?.options.find(o => o.id === selectedOptionId);
+    if (option?.disables) {
+      allDisablingRules.push(...option.disables);
+    }
+  }
+
+  // Применяем правила
+  allDisablingRules.forEach(rule => {
+    if (!disabled[rule.groupId]) {
+      disabled[rule.groupId] = [];
+    }
+    disabled[rule.groupId].push(rule.optionId);
+  });
+
+  return disabled;
+});
+
 // --- Логика расчета ---
 const calculate = () => {
   const profileData = rawData.value.find(p => p.id === selectedProfile.value);
@@ -170,6 +200,10 @@ const calculate = () => {
 
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
+    // Если ID опции null, значит, ничего не выбрано
+    if (selectedOptionId === null) {
+      return { group: group.name, value: 'Нет' };
+    }
     const selectedOption = group.options.find(opt => opt.id === selectedOptionId);
     return { group: group.name, value: selectedOption?.name || 'Нет' };
   });
@@ -227,6 +261,31 @@ watch(selectedFrameColor, (newFrameColor) => {
     selectedRal.value = '';
   }
 });
+
+watch(disabledAddons, (newDisabled) => {
+  const profile = rawData.value.find(p => p.id === selectedProfile.value);
+  if (!profile || !profile.addons) return;
+
+  profile.addons.forEach(group => {
+    const groupId = group.id;
+    const currentSelection = selectedAddons.value[groupId];
+    const currentlyDisabled = newDisabled[groupId] || [];
+
+    // Случай 1: Текущий выбор стал недоступен
+    if (currentSelection && currentlyDisabled.includes(currentSelection)) {
+      const firstAvailable = group.options.find(opt => !currentlyDisabled.includes(opt.id));
+      selectedAddons.value[groupId] = firstAvailable ? firstAvailable.id : null;
+    }
+
+    // Случай 2: Группа была полностью отключена (выбор null), а теперь появились доступные опции
+    if (currentSelection === null) {
+      const firstAvailable = group.options.find(opt => !currentlyDisabled.includes(opt.id));
+      if (firstAvailable) {
+        selectedAddons.value[groupId] = firstAvailable.id;
+      }
+    }
+  });
+}, { deep: true });
 
 watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height, selectedAddons], () => {
   calculate();

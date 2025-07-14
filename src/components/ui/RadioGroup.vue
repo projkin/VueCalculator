@@ -13,12 +13,14 @@
         :id="`${name}-${option.value}`" 
         :value="option.value" 
         :checked="modelValue === option.value"
+        :disabled="disabledOptions.includes(option.value)"
         @change="$emit('update:modelValue', option.value)"
         @click="$emit('option-click', option.value)"
       />
       <label 
         class="form-check-label" 
         :for="`${name}-${option.value}`"
+        :class="{ 'text-muted': disabledOptions.includes(option.value) }"
       >
         {{ option.label }}
         <span v-if="option.extra" class="text-muted ms-1">{{ option.extra }}</span>
@@ -49,9 +51,13 @@ defineProps({
     type: [String, Number],
     required: true,
   },
+  disabledOptions: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-defineEmits(['update:modelValue']);
+defineEmits(['update:modelValue', 'option-click']);
 </script>
 
 <style scoped>
