@@ -82,6 +82,7 @@ import ProductFormSummary from './ProductFormSummary.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
 import { usePriceCalculator } from '../composables/usePriceCalculator.js';
 import { useRaspilCalculator } from '../composables/useRaspilCalculator.js';
+import { useMotivationCalculator } from '../composables/useMotivationCalculator.js';
 
 const emit = defineEmits(['product-configured']);
 
@@ -104,6 +105,7 @@ const rawData = ref(productConfiguration);
 // --- Использование нового композита для расчета цены ---
 const { calculateTotalPrice } = usePriceCalculator();
 const { calculateRaspil } = useRaspilCalculator();
+const { calculateMotivation } = useMotivationCalculator();
 
 // --- Вычисляемые свойства (Computed) ---
 const profileOptions = computed(() => {
@@ -239,8 +241,9 @@ const onRalColorSelect = (ralId) => {
 
 const handleAddToCart = (summary) => {
   const raspil = calculateRaspil(selectedProfile.value, summary.width, summary.height);
-  const productWithRaspil = { ...summary, raspil };
-  emit('product-configured', productWithRaspil);
+  const motivation = calculateMotivation(selectedProfile.value, selectedCanvas.value);
+  const productWithDetails = { ...summary, raspil, motivation };
+  emit('product-configured', productWithDetails);
 };
 
 // --- Наблюдатели (Watchers) ---

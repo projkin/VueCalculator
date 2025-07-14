@@ -25,6 +25,9 @@
       <div v-if="item.raspil" class="mt-1 border-top pt-1">
         <span>Распил: {{ item.raspil.raspilWidth }}x{{ item.raspil.raspilHeight }}мм, Импост: {{ item.raspil.impost }}мм</span>
       </div>
+      <div v-if="item.motivation" class="mt-1 border-top pt-1">
+        <span>Мотивация: Сборщик {{ item.motivation.assembler * item.quantity }}, Монтажник {{ item.motivation.installer * item.quantity }}</span>
+      </div>
     </div>
   </div>
 </template>
