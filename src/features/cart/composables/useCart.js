@@ -23,6 +23,20 @@ export function useCart() {
     return items.value.reduce((total, item) => total + (parseFloat(item.totalPrice) * item.quantity), 0);
   });
 
+  const totalAssemblerMotivation = computed(() => {
+    return items.value.reduce((total, item) => {
+      const motivation = item.motivation?.assembler || 0;
+      return total + (motivation * item.quantity);
+    }, 0);
+  });
+
+  const totalInstallerMotivation = computed(() => {
+    return items.value.reduce((total, item) => {
+      const motivation = item.motivation?.installer || 0;
+      return total + (motivation * item.quantity);
+    }, 0);
+  });
+
   // --- Методы (Actions) ---
   const addItem = (product) => {
     items.value.push({
@@ -52,6 +66,8 @@ export function useCart() {
     items: readonly(items),
     cartCount,
     cartTotal,
+    totalAssemblerMotivation,
+    totalInstallerMotivation,
     addItem,
     removeItem,
     updateItemQuantity,

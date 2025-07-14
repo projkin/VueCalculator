@@ -7,6 +7,8 @@
     />
     <CartTotal 
       :cart-total="cartTotal" 
+      :total-assembler-motivation="totalAssemblerMotivation"
+      :total-installer-motivation="totalInstallerMotivation"
       @clear-cart="clearCart"
     />
   </div>
@@ -20,6 +22,8 @@ import { useCart } from '../composables/useCart.js';
 const { 
   items: cartItems, 
   cartTotal, 
+  totalAssemblerMotivation,
+  totalInstallerMotivation,
   removeItem: removeCartItem, 
   updateItemQuantity, 
   clearCart 
