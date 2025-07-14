@@ -1,5 +1,5 @@
 import { productConfiguration, allCanvases, allColors } from '../data/configuration.js';
-import { priceMatrix } from '../data/pricing.js';
+import { priceMatrix, optionsPriceMatrix } from '../data/pricing.js';
 
 export function usePriceCalculator() {
   const calculateTotalPrice = (
@@ -42,7 +42,18 @@ export function usePriceCalculator() {
     }
 
     const area = (width * height) / 1000000;
-    const totalPrice = area * pricePerSqm;
+    let totalPrice = area * pricePerSqm;
+
+    // Добавляем стоимость опций
+    if (selectedAddons) {
+      for (const groupId in selectedAddons) {
+        const optionId = selectedAddons[groupId];
+        if (optionId) {
+          const addonPrice = optionsPriceMatrix[selectedProfileId]?.[groupId]?.[optionId] || 0;
+          totalPrice += addonPrice;
+        }
+      }
+    }
 
     return totalPrice;
   };

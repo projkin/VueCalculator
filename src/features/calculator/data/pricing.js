@@ -42,3 +42,42 @@ export const priceMatrix = {
   },
   // ... и так далее для всех профилей и их комбинаций
 };
+
+export const optionsPriceMatrix = {
+  Ramochnaya: {
+    Fasteners: {
+      Plunger: 1200,
+      ZMetal: 600,
+      ZPlastic: 100,
+    },
+    Corners: {
+      Metal: 350,
+      Plastic: 0,
+    },
+    Handles: {
+      Metal: 150,
+      Silicon: 0,
+    },
+    WindowType: {
+      Aluminum: 500,
+      Plastic: 400,
+      NoInstall: 0,
+    },
+    ReinforcedInstall: {
+      Yes: 300,
+      No: 0,
+    }
+  },
+  VstavnieVsn: {},
+  Razdvizhnaya: {},
+  UsilenniyProfil: {},
+  DverSetka: {},
+  DverSetkaUsilennaya: {},
+  PlisseRussia: {},
+  PlisseItaly: {},
+  RulonnayaItaly: {},
+  RulonnayaRussia: {},
+  Perekatka: {},
+  UsilenniyProfil42mm: {},
+  VstavnieVsn45: {},
+};
