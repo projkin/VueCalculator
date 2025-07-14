@@ -1,5 +1,5 @@
 <template>
-  <li class="list-group-item">
+  <div class="list-group-item">
     <div class="d-flex justify-content-between align-items-start">
       <div>
         <strong>{{ item.profile }}</strong> ({{ item.width }}x{{ item.height }}мм)
@@ -23,7 +23,7 @@
         <span>Комментарий: {{ item.comment }}</span>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 
 <script setup>

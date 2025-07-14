@@ -1,7 +1,7 @@
 <template>
   <div v-if="items.length > 0" class="mt-4">
     <h4>Корзина</h4>
-    <ul class="list-group">
+    <div class="list-group">
       <CartItem 
         v-for="item in [...items].reverse()" 
         :key="item.cartItemId" 
@@ -9,7 +9,7 @@
         @remove="$emit('remove-item', item.cartItemId)"
         @update-quantity="$emit('update-item-quantity', { id: item.cartItemId, quantity: $event })"
       />
-    </ul>
+    </div>
   </div>
 </template>
 
