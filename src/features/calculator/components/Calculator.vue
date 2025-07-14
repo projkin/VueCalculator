@@ -21,13 +21,13 @@
           <!-- Высота -->
           <InputNumber id="product-height" label="Высота, мм" v-model="height" />
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6 col-md-4">
           <!-- Выбор цвета полотна (появляется после выбора полотна) -->
           <div v-if="selectedCanvas && colorOptions.length > 0">
             <RadioGroup legend="Цвет полотна" name="canvas-color" v-model="selectedColor" :options="colorOptions" />
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6 col-md-4">
           <!-- Выбор цвета рамки (появляется после выбора профиля) -->
           <div v-if="selectedProfile && frameColorOptions.length > 0">
             <RadioGroup 
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Дополнительные опции -->
-        <div v-for="addonGroup in addonGroups" :key="addonGroup.id" class="col-md-6">
+        <div v-for="addonGroup in addonGroups" :key="addonGroup.id" class="col-sm-6 col-md-4">
           <RadioGroup
             :legend="addonGroup.name"
             :name="addonGroup.id"
