@@ -50,24 +50,16 @@
             :disabled-options="disabledAddons[addonGroup.id] || []"
           />
         </div>
+
+        <!-- Комментарий -->
+        <div class="col-12">
+          <InputText id="comment" label="Комментарий" v-model="comment" />
+        </div>
       </BaseForm>
     </div>
-    <div v-if="submittedValue" class="mt-4 alert alert-success">
-      <h5>Ваша конфигурация:</h5>
-      <p class="mb-1"><strong>Профиль:</strong> {{ submittedValue.profile }}</p>
-      <p class="mb-1"><strong>Полотно:</strong> {{ submittedValue.canvas }}</p>
-      <p class="mb-1"><strong>Цвет полотна:</strong> {{ submittedValue.color }}</p>
-      <p class="mb-1"><strong>Цвет рамки:</strong> {{ submittedValue.frameColor }}</p>
-      <p class="mb-0"><strong>Размер:</strong> {{ submittedValue.width }} x {{ submittedValue.height }} мм</p>
-      <template v-if="submittedValue.addons && submittedValue.addons.length > 0">
-        <hr class="my-2">
-        <div v-for="addon in submittedValue.addons" :key="addon.group">
-          <p class="mb-1"><strong>{{ addon.group }}:</strong> {{ addon.value }}</p>
-        </div>
-      </template>
-      <hr class="my-2">
-      <h5 class="text-end">Итого: <strong>{{ submittedValue.totalPrice }} &#8381;</strong></h5>
-    </div>
+
+    <!-- Итоговая конфигурация -->
+    <ProductFormSummary :summary="submittedValue" />
 
     <!-- Панель выбора RAL -->
     <RalColorPicker 
@@ -84,7 +76,9 @@ import BaseForm from './ui/BaseForm.vue';
 import InputSelect from './ui/InputSelect.vue';
 import RadioGroup from './ui/RadioGroup.vue';
 import InputNumber from './ui/InputNumber.vue';
+import InputText from './ui/InputText.vue';
 import RalColorPicker from './ui/RalColorPicker.vue';
+import ProductFormSummary from './ProductFormSummary.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data';
 import { usePriceCalculator } from '../composables/usePriceCalculator';
 
@@ -99,6 +93,7 @@ const width = ref(null);
 const height = ref(null);
 const selectedAddons = ref({});
 const submittedValue = ref(null);
+const comment = ref('');
 
 // --- Исходные данные ---
 const rawData = ref(productConfiguration);
@@ -216,6 +211,7 @@ const calculate = () => {
     width: width.value,
     height: height.value,
     addons: addons,
+    comment: comment.value,
     totalPrice: totalPrice.toFixed(2),
   };
 };
@@ -287,7 +283,7 @@ watch(disabledAddons, (newDisabled) => {
   });
 }, { deep: true });
 
-watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height, selectedAddons], () => {
+watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selectedRal, width, height, selectedAddons, comment], () => {
   calculate();
 }, { deep: true });
 
