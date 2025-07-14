@@ -4,7 +4,7 @@
     <p class="mb-1"><strong>Профиль:</strong> {{ summary.profile }}</p>
     <p class="mb-1"><strong>Полотно:</strong> {{ summary.canvas }}</p>
     <p class="mb-1"><strong>Цвет полотна:</strong> {{ summary.color }}</p>
-    <p class="mb-1"><strong>Цвет рамки:</strong> {{ summary.frameColor }}</p>
+    <p class="mb-1"><strong>Цвет рамки:</strong> {{ summary.frameColor }} <span v-if="summary.ralCode">({{ summary.ralCode }})</span></p>
     <p class="mb-0"><strong>Размер:</strong> {{ summary.width }} x {{ summary.height }} мм</p>
     <template v-if="summary.addons && summary.addons.length > 0">
       <hr class="my-2">
@@ -15,17 +15,27 @@
     <hr class="my-2">
     <p class="mb-1"><strong>Комментарий:</strong> {{ summary.comment }}</p>
     <hr class="my-2">
-    <h5 class="text-end">Итого: <strong>{{ summary.totalPrice }} &#8381;</strong></h5>
+    <div class="d-flex justify-content-end align-items-center">
+      <h5 class="mb-0 me-3">Итого: <strong>{{ summary.totalPrice }} &#8381;</strong></h5>
+      <Button text="Добавить в расчет" @click="onAddToCart" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
+import Button from './ui/Button.vue';
 
-defineProps({
+const props = defineProps({
   summary: {
     type: Object,
     default: null,
   },
 });
+
+const emit = defineEmits(['add-to-cart']);
+
+const onAddToCart = () => {
+  emit('add-to-cart', props.summary);
+};
 </script>

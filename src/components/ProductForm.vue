@@ -59,7 +59,7 @@
     </div>
 
     <!-- Итоговая конфигурация -->
-    <ProductFormSummary :summary="submittedValue" />
+    <ProductFormSummary :summary="submittedValue" @add-to-cart="handleAddToCart" />
 
     <!-- Панель выбора RAL -->
     <RalColorPicker 
@@ -180,8 +180,6 @@ const calculate = () => {
   const canvasData = allCanvases[selectedCanvas.value];
   const colorData = allColors[selectedColor.value];
 
-  const finalFrameColor = selectedFrameColor.value === 'Ral' ? `RAL ${selectedRal.value}` : allFrameColors[selectedFrameColor.value]?.name;
-
   const totalPrice = calculateTotalPrice(
     selectedProfile.value,
     selectedCanvas.value,
@@ -203,17 +201,24 @@ const calculate = () => {
     return { group: group.name, value: selectedOption?.name || 'Нет' };
   });
 
-  submittedValue.value = {
+  const submissionData = {
     profile: profileData.name,
     canvas: canvasData?.name || 'Нет',
     color: colorData?.name || 'Нет',
-    frameColor: finalFrameColor || 'Нет',
+    frameColor: allFrameColors[selectedFrameColor.value]?.name || 'Нет',
     width: width.value,
     height: height.value,
     addons: addons,
     comment: comment.value,
     totalPrice: totalPrice.toFixed(2),
   };
+
+  if (selectedFrameColor.value === 'Ral' && selectedRal.value) {
+    submissionData.frameColor = 'RAL';
+    submissionData.ralCode = selectedRal.value;
+  }
+
+  submittedValue.value = submissionData;
 };
 
 // --- Обработчики событий ---
@@ -226,6 +231,11 @@ const onFrameColorClick = (value) => {
 const onRalColorSelect = (ralId) => {
   selectedRal.value = ralId;
   showRalPicker.value = false;
+};
+
+const handleAddToCart = (summary) => {
+  console.log('Добавлено в расчет:', summary);
+  // Здесь будет логика добавления в корзину
 };
 
 // --- Наблюдатели (Watchers) ---
