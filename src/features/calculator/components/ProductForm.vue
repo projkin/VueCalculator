@@ -61,6 +61,15 @@
     <!-- Итоговая конфигурация -->
     <ProductFormSummary :summary="submittedValue" @add-to-cart="handleAddToCart" />
 
+    <!-- Корзина -->
+    <CartList 
+      :items="cartItems" 
+      :cart-total="cartTotal" 
+      @remove-item="removeCartItem"
+      @update-item-quantity="updateItemQuantity($event.id, $event.quantity)"
+      @clear-cart="clearCart"
+    />
+
     <!-- Панель выбора RAL -->
     <RalColorPicker 
       v-model:show="showRalPicker" 
@@ -79,8 +88,10 @@ import InputNumber from '../../../components/ui/InputNumber.vue';
 import InputText from '../../../components/ui/InputText.vue';
 import RalColorPicker from '../../../components/ui/RalColorPicker.vue';
 import ProductFormSummary from './ProductFormSummary.vue';
+import CartList from '../../cart/components/CartList.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
 import { usePriceCalculator } from '../composables/usePriceCalculator.js';
+import { useCart } from '../../cart/composables/useCart.js';
 
 // --- Реактивные переменные ---
 const selectedProfile = ref('');
@@ -100,6 +111,14 @@ const rawData = ref(productConfiguration);
 
 // --- Использование нового композита для расчета цены ---
 const { calculateTotalPrice } = usePriceCalculator();
+const { 
+  items: cartItems, 
+  cartTotal, 
+  addItem: addCartItem, 
+  removeItem: removeCartItem, 
+  updateItemQuantity, 
+  clearCart 
+} = useCart();
 
 // --- Вычисляемые свойства (Computed) ---
 const profileOptions = computed(() => {
@@ -234,8 +253,7 @@ const onRalColorSelect = (ralId) => {
 };
 
 const handleAddToCart = (summary) => {
-  console.log('Добавлено в расчет:', summary);
-  // Здесь будет логика добавления в корзину
+  addCartItem(summary);
 };
 
 // --- Наблюдатели (Watchers) ---
