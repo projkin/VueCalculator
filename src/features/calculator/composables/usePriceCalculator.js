@@ -1,4 +1,5 @@
-import { productConfiguration, allCanvases, allColors, priceMatrix } from '../data';
+import { productConfiguration, allCanvases, allColors } from '../data/configuration.js';
+import { priceMatrix } from '../data/pricing.js';
 
 export function usePriceCalculator() {
   const calculateTotalPrice = (

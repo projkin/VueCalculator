@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import ProductForm from './components/ProductForm.vue';
+import ProductForm from './features/calculator/components/ProductForm.vue';
 </script>
 
 <style>

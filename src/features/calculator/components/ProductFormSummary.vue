@@ -24,7 +24,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from 'vue';
-import Button from './ui/Button.vue';
+import Button from '../../../components/ui/Button.vue';
 
 const props = defineProps({
   summary: {

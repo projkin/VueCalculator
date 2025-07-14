@@ -72,15 +72,15 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import BaseForm from './ui/BaseForm.vue';
-import InputSelect from './ui/InputSelect.vue';
-import RadioGroup from './ui/RadioGroup.vue';
-import InputNumber from './ui/InputNumber.vue';
-import InputText from './ui/InputText.vue';
-import RalColorPicker from './ui/RalColorPicker.vue';
+import BaseForm from '../../../components/ui/BaseForm.vue';
+import InputSelect from '../../../components/ui/InputSelect.vue';
+import RadioGroup from '../../../components/ui/RadioGroup.vue';
+import InputNumber from '../../../components/ui/InputNumber.vue';
+import InputText from '../../../components/ui/InputText.vue';
+import RalColorPicker from '../../../components/ui/RalColorPicker.vue';
 import ProductFormSummary from './ProductFormSummary.vue';
-import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data';
-import { usePriceCalculator } from '../composables/usePriceCalculator';
+import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
+import { usePriceCalculator } from '../composables/usePriceCalculator.js';
 
 // --- Реактивные переменные ---
 const selectedProfile = ref('');
