@@ -22,6 +22,9 @@
       <div v-if="item.comment">
         <span>Комментарий: {{ item.comment }}</span>
       </div>
+      <div v-if="item.raspil" class="mt-1 border-top pt-1">
+        <span>Распил: {{ item.raspil.raspilWidth }}x{{ item.raspil.raspilHeight }}мм, Импост: {{ item.raspil.impost }}мм</span>
+      </div>
     </div>
   </div>
 </template>

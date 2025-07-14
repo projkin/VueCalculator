@@ -81,6 +81,7 @@ import RalColorPicker from '../../../components/ui/RalColorPicker.vue';
 import ProductFormSummary from './ProductFormSummary.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
 import { usePriceCalculator } from '../composables/usePriceCalculator.js';
+import { useRaspilCalculator } from '../composables/useRaspilCalculator.js';
 
 const emit = defineEmits(['product-configured']);
 
@@ -102,6 +103,7 @@ const rawData = ref(productConfiguration);
 
 // --- Использование нового композита для расчета цены ---
 const { calculateTotalPrice } = usePriceCalculator();
+const { calculateRaspil } = useRaspilCalculator();
 
 // --- Вычисляемые свойства (Computed) ---
 const profileOptions = computed(() => {
@@ -236,7 +238,9 @@ const onRalColorSelect = (ralId) => {
 };
 
 const handleAddToCart = (summary) => {
-  emit('product-configured', summary);
+  const raspil = calculateRaspil(selectedProfile.value, summary.width, summary.height);
+  const productWithRaspil = { ...summary, raspil };
+  emit('product-configured', productWithRaspil);
 };
 
 // --- Наблюдатели (Watchers) ---
