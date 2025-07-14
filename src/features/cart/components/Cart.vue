@@ -1,15 +1,20 @@
 <template>
-  <CartList 
-    :items="cartItems" 
-    :cart-total="cartTotal" 
-    @remove-item="removeCartItem"
-    @update-item-quantity="event => updateItemQuantity(event.id, event.quantity)"
-    @clear-cart="clearCart"
-  />
+  <div v-if="cartItems.length > 0">
+    <CartList 
+      :items="cartItems" 
+      @remove-item="removeCartItem"
+      @update-item-quantity="event => updateItemQuantity(event.id, event.quantity)"
+    />
+    <CartTotal 
+      :cart-total="cartTotal" 
+      @clear-cart="clearCart"
+    />
+  </div>
 </template>
 
 <script setup>
-import CartList from '../components/CartList.vue';
+import CartList from './CartList.vue';
+import CartTotal from './CartTotal.vue';
 import { useCart } from '../composables/useCart.js';
 
 const { 

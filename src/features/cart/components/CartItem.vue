@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-start">
       <div>
         <strong>{{ item.profile }}</strong> ({{ item.width }}x{{ item.height }}мм)
-        <small class="d-block text-muted">{{ item.canvas }}, {{ item.frameColor }} <span v-if="item.ralCode">({{ item.ralCode }})</span></small>
+        <small class="d-block text-muted">Полотно: {{ item.canvas }} ({{ item.color }}). Рамка: {{ item.frameColor }}<span v-if="item.ralCode"> ({{ item.ralCode }})</span></small>
       </div>
       <div class="d-flex align-items-center">
         <InputSpinner 
