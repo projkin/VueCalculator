@@ -1,0 +1,71 @@
+Отправляемые данные: 
+{
+  "order_form": {
+    "delivery_type": "Самовывоз",
+    "discount": "Нет",
+    "order_type": "Заказ",
+    "contract": "",
+    "date": "2025-07-15",
+    "name": "",
+    "phone": "",
+    "comment": ""
+  },
+  "cart": {
+    "items": [
+      {
+        "profile": "Рамочная",
+        "canvas": "Стандартное",
+        "color": "Белый",
+        "frame_color": "Белый",
+        "width": 1000,
+        "height": 1000,
+        "addons": [
+          {
+            "group": "Крепления",
+            "value": "Плунжер"
+          },
+          {
+            "group": "Углы",
+            "value": "Металлические"
+          },
+          {
+            "group": "Ручки",
+            "value": "Металлические"
+          },
+          {
+            "group": "На какие окна ставим?",
+            "value": "Алюминиевые"
+          },
+          {
+            "group": "Усиленный монтаж?",
+            "value": "Да"
+          }
+        ],
+        "comment": "",
+        "total_price": 3500,
+        "motivation": {
+          "assembler": 230,
+          "installer": 580
+        },
+        "raspil": {
+          "raspil_width": 940,
+          "raspil_height": 940,
+          "impost": 953
+        },
+        "cart_item_id": 19,
+        "quantity": 1
+      }
+    ],
+    "total": 3500,
+    "ral_painting_cost": 0,
+    "motivation": {
+      "assembler": 230,
+      "installer": 580
+    }
+  }
+}
+
+XHRPOST
+http://vue-calculator.local/api/submit-order.php
+[HTTP/1.1 400 Bad Request 1ms]
+

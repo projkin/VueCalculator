@@ -17,27 +17,27 @@ export function createOrderPayload(form, cart, options) {
   const selectedOrderType = orderTypeOptions.find(opt => opt.value === form.orderType);
   const selectedDiscount = discountOptions.find(opt => opt.value === form.discount);
 
-  const formToSend = {
-    ...form,
-    delivery_type: selectedDelivery ? selectedDelivery.label : form.delivery_type,
-    order_type: selectedOrderType ? selectedOrderType.text : form.orderType, // <--- Изменено здесь
-    discount: selectedDiscount ? selectedDiscount.text : `${form.discount}%`,
-  };
+  const formToSend = { ...form };
 
-  // Удаляем старое поле, чтобы избежать дублирования
-  delete formToSend.orderType; 
+  // Заменяем значения на текстовые метки
+  formToSend.delivery_type = selectedDelivery ? selectedDelivery.label : form.delivery_type;
+  formToSend.discount = selectedDiscount ? selectedDiscount.text : `${form.discount}%`;
 
-  // Если доставка - самовывоз, не отправляем расстояние
+  // Заменяем orderType на order_type
+  formToSend.order_type = selectedOrderType ? selectedOrderType.text : form.orderType;
+  delete formToSend.orderType; // Удаляем старый ключ
+
   if (formToSend.delivery_type === 'Самовывоз') {
     delete formToSend.delivery_distance;
   }
 
+  // Собираем итоговый объект с ключом order
   return {
-    orderForm: formToSend,
+    order: formToSend,
     cart: {
       items: cart.items,
       total: cart.total,
-      ral_cost: cart.ralPaintingCost, // Переименовываем здесь
+      ral_cost: cart.ralPaintingCost, // Переименовываем только это поле
       motivation: cart.motivation,
     },
   };

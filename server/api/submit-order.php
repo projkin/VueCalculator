@@ -41,7 +41,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 // 5. (Опционально, но рекомендуется) Валидация данных
 // Здесь вы можете проверить, что все необходимые поля присутствуют
-if (!isset($data['orderForm']) || !isset($data['cart'])) {
+if (!isset($data['order']) || !isset($data['cart'])) {
     http_response_code(400); // 400 Bad Request
     echo json_encode(['status' => 'error', 'message' => 'Отсутствуют обязательные данные заказа.']);
     exit();
@@ -49,7 +49,7 @@ if (!isset($data['orderForm']) || !isset($data['cart'])) {
 
 // --- Обработка данных ---
 // На этом этапе у вас есть все данные в переменной $data
-$orderForm = $data['orderForm'];
+$order = $data['order'];
 $cart = $data['cart'];
 
 // Что делать с данными дальше?
