@@ -54,7 +54,10 @@
 
       <!-- Кнопка -->
       <div class="col-12 text-end">
-        <Button text="Отправить заявку" @click="submitOrder" />
+        <Button text="Отправить заявку" @click="submitOrder" :disabled="isLoading" />
+        <p v-if="isLoading" class="text-muted small mt-2">Отправка...</p>
+        <p v-if="isSuccess" class="text-success small mt-2">Заказ успешно отправлен!</p>
+        <p v-if="error" class="text-danger small mt-2">{{ error }}</p>
       </div>
     </BaseForm>
   </div>
@@ -68,6 +71,11 @@ import InputNumber from '../../../components/ui/InputNumber.vue';
 import InputSelect from '../../../components/ui/InputSelect.vue';
 import InputText from '../../../components/ui/InputText.vue';
 import Button from '../../../components/ui/Button.vue';
+import { useCart } from '../composables/useCart.js';
+import { useSubmitOrder } from '../composables/useSubmitOrder.js';
+
+const { items, cartTotal, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
+const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const form = ref({
   delivery: 'Pickup',
@@ -104,7 +112,17 @@ const orderTypeOptions = [
 ];
 
 const submitOrder = () => {
-  // TODO: Implement order submission logic
-  console.log('Order submitted:', form.value);
+  const orderData = {
+    orderForm: form.value,
+    cart: {
+      items: items.value,
+      total: cartTotal.value,
+      motivation: {
+        assembler: totalAssemblerMotivation.value,
+        installer: totalInstallerMotivation.value,
+      },
+    },
+  };
+  submit(orderData);
 };
 </script>
