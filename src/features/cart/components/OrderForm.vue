@@ -73,6 +73,7 @@ import InputText from '../../../components/ui/form/InputText.vue';
 import Button from '../../../components/ui/Button.vue';
 import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';
+import { createOrderPayload } from '../mappers/orderMapper.js';
 
 const { items, cartTotal, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
@@ -112,17 +113,19 @@ const orderTypeOptions = [
 ];
 
 const submitOrder = () => {
-  const orderData = {
-    orderForm: form.value,
-    cart: {
-      items: items.value,
-      total: cartTotal.value,
-      motivation: {
-        assembler: totalAssemblerMotivation.value,
-        installer: totalInstallerMotivation.value,
-      },
+  const cartData = {
+    items: items.value,
+    total: cartTotal.value,
+    motivation: {
+      assembler: totalAssemblerMotivation.value,
+      installer: totalInstallerMotivation.value,
     },
   };
-  submit(orderData);
+
+  const options = { deliveryOptions, orderTypeOptions, discountOptions };
+
+  const orderPayload = createOrderPayload(form.value, cartData, options);
+  
+  submit(orderPayload);
 };
 </script>
