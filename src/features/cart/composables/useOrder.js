@@ -8,7 +8,7 @@ const deliveryType = ref('Pickup');
 const discountPercentage = ref(0);
 
 export function useOrder() {
-  const { items, ralPaintingCost } = useCart();
+  const { items, ralPaintingCost, isEmpty } = useCart();
 
   // --- Вычисляемые свойства ---
   const deliveryPriceComputed = computed(() => {
@@ -46,13 +46,13 @@ export function useOrder() {
   };
 
   // --- Наблюдатель для сброса состояния заказа при пустой корзине ---
-  watch(items, (newItems) => {
-    if (newItems.length === 0) {
+  watch(isEmpty, (isCartEmpty) => {
+    if (isCartEmpty) {
       deliveryDistance.value = 0;
       deliveryType.value = 'Pickup';
       discountPercentage.value = 0;
     }
-  }, { deep: true });
+  });
 
   // --- Возвращаем публичный API ---
   return {

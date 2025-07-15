@@ -48,6 +48,7 @@ let nextItemId = (initialItems.reduce((maxId, item) => Math.max(item.cartItemId,
 export function useCart() {
   // --- Вычисляемые свойства (Getters) ---
   const cartCount = computed(() => items.value.length);
+  const isEmpty = computed(() => items.value.length === 0);
 
   const ralPaintingCost = computed(() => {
     if (!hasRalItems.value) {
@@ -135,6 +136,7 @@ export function useCart() {
     ralPaintingCost,
     hasRalItems,
     cartCount,
+    isEmpty,
     cartTotal,
     totalAssemblerMotivation,
     totalInstallerMotivation,
