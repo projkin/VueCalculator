@@ -51,7 +51,7 @@ export function createOrderPayload(form, cart, options) {
       ...form,
       delivery_type: deliveryOptions.find(opt => opt.value === form.delivery_type)?.label || form.delivery_type,
       order_type: orderTypeOptions.find(opt => opt.value === form.orderType)?.text || form.orderType,
-      discount: discountOptions.find(opt => opt.value === form.discount)?.text || `${form.discount}%`,
+      discount: discountOptions.find(opt => opt.value === form.discount)?.text || `${form.discount}`,
     },
     cart: {
       ...(() => {
