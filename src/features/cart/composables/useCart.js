@@ -2,8 +2,8 @@
 import { ref, computed, readonly, watch } from 'vue';
 import { RAL_COST, MKAD_COST } from '@/features/calculator/data/pricing.js';
 
-const CART_STORAGE_KEY = 'vue-calculator-cart';
-const RAL_PAINTING_COUNT_KEY = 'vue-calculator-ral-painting-count';
+const CART_STORAGE_KEY = 'calculator-cart';
+const RAL_PAINTING_COUNT_KEY = 'calculator-ral-count';
 
 // --- Хелпер для определения товара с RAL ---
 const isRalItem = (item) => item && item.frameColor === 'RAL';

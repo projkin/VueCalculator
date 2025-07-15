@@ -55,10 +55,11 @@ export function createOrderPayload(form, cart, options) {
     },
     cart: {
       ...(() => {
-        const { ralPaintingCost, ...restOfCart } = cart;
+        const { ralPaintingCost, ralPaintingCount, ...restOfCart } = cart;
         return restOfCart;
       })(),
       ral_cost: cart.ralPaintingCost,
+      ral_count: cart.ralPaintingCount,
     },
   };
 
