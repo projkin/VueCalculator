@@ -1,0 +1,79 @@
+cartData in OrderForm: 
+Object { items: Proxy, total: 4025, ralPaintingCost: 0, ralPaintingCount: 0, deliveryPrice: 700, motivation: {…} }
+​
+deliveryPrice: 700
+​
+items: Proxy { <target>: Proxy, <handler>: {…} }
+​​
+<target>: Proxy { <target>: (1) […], <handler>: {…} }
+​​​
+<target>: Array [ {…} ]
+​​​​
+0: Object { profile: "Рамочная", canvas: "Стандартное", color: "Белый", … }
+​​​​​
+addons: Proxy { <target>: (5) […], <handler>: {…} }
+​​​​​
+canvas: "Стандартное"
+​​​​​
+cartItemId: 2
+​​​​​
+color: "Белый"
+​​​​​
+comment: ""
+​​​​​
+frameColor: "Белый"
+​​​​​
+height: 1000
+​​​​​
+motivation: Object { assembler: 230, installer: 580 }
+​​​​​​
+assembler: 230
+​​​​​​
+installer: 580
+​​​​​​
+<prototype>: Object { … }
+​​​​​
+profile: "Рамочная"
+​​​​​
+quantity: 1
+​​​​​
+raspil: Object { raspilWidth: 940, raspilHeight: 940, impost: 953 }
+​​​​​​
+impost: 953
+​​​​​​
+raspilHeight: 940
+​​​​​​
+raspilWidth: 940
+​​​​​​
+<prototype>: Object { … }
+​​​​​
+totalPrice: 3500
+​​​​​
+width: 1000
+​​​​​
+<prototype>: Object { … }
+​​​​
+length: 1
+​​​​
+<prototype>: Array []
+​​​
+<handler>: Object { _isReadonly: false, _isShallow: false }
+​​
+<handler>: Object { _isReadonly: true, _isShallow: false }
+​
+motivation: Object { assembler: 230, installer: 580 }
+​​
+assembler: 230
+​​
+installer: 580
+​​
+<prototype>: Object { … }
+​
+ralPaintingCost: 0
+​
+ralPaintingCount: 0
+​
+total: 4025
+​
+<prototype>: Object { … }
+OrderForm.vue:157:11

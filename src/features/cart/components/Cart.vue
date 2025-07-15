@@ -24,10 +24,10 @@ import CartList from './CartList.vue';
 import CartTotal from './CartTotal.vue';
 import OrderForm from './OrderForm.vue';
 import { useCart } from '../composables/useCart.js';
+import { useOrder } from '../composables/useOrder.js';
 
 const { 
   items: cartItems, 
-  cartTotal, 
   hasRalItems,
   totalAssemblerMotivation,
   totalInstallerMotivation,
@@ -35,4 +35,6 @@ const {
   updateItemQuantity, 
   clearCart 
 } = useCart();
+
+const { cartTotal } = useOrder();
 </script>

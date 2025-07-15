@@ -74,9 +74,11 @@ import InputPhone from '../../../components/ui/form/InputPhone.vue';
 import Button from '../../../components/ui/Button.vue';
 import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';
+import { useOrder } from '../composables/useOrder.js';
 import { createOrderPayload } from '../mappers/orderMapper.js';
 
-const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation, setDeliveryDistance, ralPaintingCount, setDeliveryType, deliveryPriceComputed, setDiscountPercentage } = useCart();
+const { items, ralPaintingCost, ralPaintingCount, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
+const { cartTotal, deliveryPriceComputed, deliveryDistance, deliveryType, discountPercentage, setDeliveryDistance, setDeliveryType, setDiscountPercentage } = useOrder();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const initialFormState = {

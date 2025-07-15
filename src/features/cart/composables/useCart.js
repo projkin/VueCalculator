@@ -23,7 +23,7 @@ const discountPercentage = ref(0); // Новая реактивная перем
 const hasRalItems = computed(() => items.value.some(isRalItem));
 
 // Синхронизация с localStorage и управление логикой покраски
-watch(items, () => {
+watch(() => items.value.length, (newLength) => {
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items.value));
   
   if (hasRalItems.value && ralPaintingCount.value === 0) {
@@ -33,12 +33,12 @@ watch(items, () => {
   }
 
   // Сбрасываем скидку и доставку, если корзина пуста
-  if (items.value.length === 0) {
+  if (newLength === 0) {
     discountPercentage.value = 0;
     deliveryType.value = 'Pickup';
     deliveryDistance.value = 0;
   }
-}, { deep: true });
+});
 
 watch(ralPaintingCount, (newCount) => {
   localStorage.setItem(RAL_PAINTING_COUNT_KEY, JSON.stringify(newCount));
@@ -93,11 +93,11 @@ export function useCart() {
 
   // --- Методы (Actions) ---
   const addItem = (product) => {
-    items.value.push({
+    items.value = [...items.value, {
       ...product,
       cartItemId: nextItemId++,
       quantity: 1,
-    });
+    }];
   };
 
   const removeItem = (cartItemId) => {
@@ -143,12 +143,6 @@ export function useCart() {
     removeItem,
     updateItemQuantity,
     clearCart,
-    deliveryDistance,
-    setDeliveryDistance,
-    deliveryType,
-    setDeliveryType,
-    deliveryPriceComputed,
-    discountPercentage,
-    setDiscountPercentage,
+    
   };
 }

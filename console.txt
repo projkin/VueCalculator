@@ -1,0 +1,7 @@
+useOrder: setDeliveryType called with: InMkad useOrder.js:42:13
+useOrder: setDeliveryType called with: InMkad useOrder.js:42:13
+OrderForm: cartData before submit: 
+Object { items: Proxy, total: 28100, ralPaintingCost: 25500, ralPaintingCount: 3, deliveryPrice: 2100, motivation: {…} }
+OrderForm.vue:157:11
+OrderForm: cartData before submit: 
+Object { items: Proxy, total: 28100, ralPaintingCost: 25500, ralPaintingCount: 3, deliveryPrice: 2100, motivation: {…} }
