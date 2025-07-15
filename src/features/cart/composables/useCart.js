@@ -1,6 +1,6 @@
 // src/features/cart/composables/useCart.js
 import { ref, computed, readonly, watch } from 'vue';
-import { RAL_COST } from '@/features/calculator/data/pricing.js';
+import { RAL_COST, MKAD_COST } from '@/features/calculator/data/pricing.js';
 
 const CART_STORAGE_KEY = 'vue-calculator-cart';
 const RAL_PAINTING_COUNT_KEY = 'vue-calculator-ral-painting-count';
@@ -14,6 +14,8 @@ const items = ref(initialItems);
 
 const initialRalPaintingCount = JSON.parse(localStorage.getItem(RAL_PAINTING_COUNT_KEY) || '0');
 const ralPaintingCount = ref(initialRalPaintingCount);
+
+const deliveryDistance = ref(0); // Новая реактивная переменная для расстояния доставки
 
 // --- Вычисляемые свойства и наблюдатели ---
 const hasRalItems = computed(() => items.value.some(isRalItem));
@@ -48,7 +50,8 @@ export function useCart() {
 
   const cartTotal = computed(() => {
     const itemsTotal = items.value.reduce((total, item) => total + (parseFloat(item.totalPrice) * item.quantity), 0);
-    return itemsTotal + ralPaintingCost.value;
+    const deliveryCost = deliveryDistance.value * MKAD_COST;
+    return itemsTotal + ralPaintingCost.value + deliveryCost;
   });
 
   const totalAssemblerMotivation = computed(() => {
@@ -90,6 +93,10 @@ export function useCart() {
     // ralPaintingCount будет сброшен в 0 через наблюдатель watch(items)
   };
 
+  const setDeliveryDistance = (distance) => {
+    deliveryDistance.value = distance;
+  };
+
   // --- Возвращаем публичный API ---
   return {
     items: readonly(items),
@@ -104,5 +111,7 @@ export function useCart() {
     removeItem,
     updateItemQuantity,
     clearCart,
+    deliveryDistance,
+    setDeliveryDistance,
   };
 }

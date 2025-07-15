@@ -75,7 +75,7 @@ import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';
 import { createOrderPayload } from '../mappers/orderMapper.js';
 
-const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
+const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation, setDeliveryDistance } = useCart();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const form = ref({
@@ -94,6 +94,10 @@ watch(() => form.value.delivery_type, (newVal) => {
   if (newVal === 'Pickup') {
     form.value.delivery_distance = 0;
   }
+});
+
+watch(() => form.value.delivery_distance, (newVal) => {
+  setDeliveryDistance(newVal);
 });
 
 const deliveryOptions = [

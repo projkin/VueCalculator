@@ -83,3 +83,5 @@ export const optionsPriceMatrix = {
 };
 
 export const RAL_COST = 8500;
+
+export const MKAD_COST = 40;
