@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, defineEmits } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import BaseForm from '../../../components/ui/BaseForm.vue';
 import InputSelect from '../../../components/ui/InputSelect.vue';
 import RadioGroup from '../../../components/ui/RadioGroup.vue';

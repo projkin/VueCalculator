@@ -10,16 +10,15 @@ export function useSubmitOrder() {
     error.value = null;
     isSuccess.value = false;
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+    if (!apiUrl) {
+        error.value = "URL API не настроен. Проверьте файл .env и переменную VITE_API_URL.";
+        isLoading.value = false;
+        return;
+    }
+
     try {
-      // Имитация задержки сети
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Вместо отправки на сервер, выводим в консоль
-      console.log('Отправляемые данные заказа:', orderData);
-
-      // Здесь будет POST-запрос с использованием fetch, например:
-      /*
-      const response = await fetch('YOUR_API_ENDPOINT', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,10 +27,10 @@ export function useSubmitOrder() {
       });
 
       if (!response.ok) {
-        throw new Error('Ошибка при отправке заказа');
+        const errorData = await response.json().catch(() => ({ message: 'Не удалось получить детали ошибки от сервера.' }));
+        throw new Error(errorData.message || 'Ошибка при отправке заказа');
       }
-      */
-
+      
       isSuccess.value = true;
     } catch (e) {
       error.value = e.message;

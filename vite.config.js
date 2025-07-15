@@ -8,7 +8,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/widget.js',
+      entry: 'src/main.js',
       name: 'CalculatorWidget',
       fileName: () => 'index.js',
       formats: ['iife']

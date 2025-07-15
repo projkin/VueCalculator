@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 import { allRalColors } from '../../features/calculator/data/configuration.js';
 
 defineProps({

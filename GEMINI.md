@@ -4,3 +4,7 @@
 - Windows 10
 - Терминал powershell
 
+### Packages
+- vue 3.5.17
+- bootstrap 5.3.7
+
