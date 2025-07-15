@@ -79,7 +79,7 @@ import { createOrderPayload } from '../mappers/orderMapper.js';
 const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation, setDeliveryDistance, ralPaintingCount, setDeliveryType, deliveryPriceComputed, setDiscountPercentage } = useCart();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
-const form = ref({
+const initialFormState = {
   delivery_type: 'Pickup',
   delivery_distance: 0,
   discount: 0,
@@ -89,6 +89,14 @@ const form = ref({
   name: '',
   phone: '',
   comment: '',
+};
+
+const form = ref({ ...initialFormState });
+
+watch(() => items.value.length, (newLength) => {
+  if (newLength === 0) {
+    form.value = { ...initialFormState };
+  }
 });
 
 watch(() => form.value.delivery_type, (newVal) => {
@@ -130,10 +138,7 @@ const orderTypeOptions = [
 ];
 
 const submitOrder = () => {
-  // Если выбран самовывоз, обнуляем дистанцию доставки
-  if (form.value.delivery_type === 'Pickup') {
-    form.value.delivery_distance = 0;
-  }
+  
 
   const cartData = {
     items: items.value,

@@ -32,9 +32,11 @@ watch(items, () => {
     ralPaintingCount.value = 0;
   }
 
-  // Сбрасываем скидку, если корзина пуста
+  // Сбрасываем скидку и доставку, если корзина пуста
   if (items.value.length === 0) {
     discountPercentage.value = 0;
+    deliveryType.value = 'Pickup';
+    deliveryDistance.value = 0;
   }
 }, { deep: true });
 
@@ -112,7 +114,7 @@ export function useCart() {
   const clearCart = () => {
     items.value = [];
     ralPaintingCount.value = 0; // Сбрасываем ralPaintingCount при очистке корзины
-    discountPercentage.value = 0; // Сбрасываем скидку при очистке корзины
+    // discountPercentage, deliveryType, deliveryDistance будут сброшены через наблюдатель watch(items)
   };
 
   const setDeliveryDistance = (distance) => {
