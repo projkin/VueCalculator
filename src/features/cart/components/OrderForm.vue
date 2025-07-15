@@ -76,7 +76,7 @@ import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';
 import { createOrderPayload } from '../mappers/orderMapper.js';
 
-const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation, setDeliveryDistance, ralPaintingCount } = useCart();
+const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation, setDeliveryDistance, ralPaintingCount, setDeliveryType, deliveryPriceComputed, setDiscountPercentage } = useCart();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const form = ref({
@@ -95,10 +95,16 @@ watch(() => form.value.delivery_type, (newVal) => {
   if (newVal === 'Pickup') {
     form.value.delivery_distance = 0;
   }
+  setDeliveryDistance(form.value.delivery_distance);
+  setDeliveryType(newVal);
 });
 
 watch(() => form.value.delivery_distance, (newVal) => {
   setDeliveryDistance(newVal);
+});
+
+watch(() => form.value.discount, (newVal) => {
+  setDiscountPercentage(newVal);
 });
 
 const deliveryOptions = [
@@ -134,6 +140,7 @@ const submitOrder = () => {
     total: cartTotal.value,
     ralPaintingCost: ralPaintingCost.value,
     ralPaintingCount: ralPaintingCount.value,
+    deliveryPrice: deliveryPriceComputed.value,
     motivation: {
       assembler: totalAssemblerMotivation.value,
       installer: totalInstallerMotivation.value,

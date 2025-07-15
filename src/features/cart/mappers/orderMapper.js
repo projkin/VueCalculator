@@ -60,6 +60,7 @@ export function createOrderPayload(form, cart, options) {
       })(),
       ral_cost: cart.ralPaintingCost,
       ral_count: cart.ralPaintingCount,
+      delivery_price: cart.deliveryPrice,
     },
   };
 

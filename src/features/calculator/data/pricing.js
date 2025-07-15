@@ -84,4 +84,7 @@ export const optionsPriceMatrix = {
 
 export const RAL_COST = 8500;
 
-export const MKAD_COST = 40;
+export const DELIVERY_PRICING = {
+  MIN: 500,
+  DISTANCE: 40,
+};

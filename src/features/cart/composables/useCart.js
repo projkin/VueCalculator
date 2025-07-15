@@ -1,6 +1,6 @@
 // src/features/cart/composables/useCart.js
 import { ref, computed, readonly, watch } from 'vue';
-import { RAL_COST, MKAD_COST } from '@/features/calculator/data/pricing.js';
+import { RAL_COST, DELIVERY_PRICING } from '@/features/calculator/data/pricing.js';
 
 const CART_STORAGE_KEY = 'calculator-cart';
 const RAL_PAINTING_COUNT_KEY = 'calculator-ral-count';
@@ -16,6 +16,8 @@ const initialRalPaintingCount = JSON.parse(localStorage.getItem(RAL_PAINTING_COU
 const ralPaintingCount = ref(initialRalPaintingCount);
 
 const deliveryDistance = ref(0); // Новая реактивная переменная для расстояния доставки
+const deliveryType = ref('Pickup'); // Новая реактивная переменная для типа доставки, по умолчанию 'Pickup'
+const discountPercentage = ref(0); // Новая реактивная переменная для процента скидки
 
 // --- Вычисляемые свойства и наблюдатели ---
 const hasRalItems = computed(() => items.value.some(isRalItem));
@@ -28,6 +30,11 @@ watch(items, () => {
     ralPaintingCount.value = 1;
   } else if (!hasRalItems.value) {
     ralPaintingCount.value = 0;
+  }
+
+  // Сбрасываем скидку, если корзина пуста
+  if (items.value.length === 0) {
+    discountPercentage.value = 0;
   }
 }, { deep: true });
 
@@ -48,10 +55,24 @@ export function useCart() {
     return ralPaintingCount.value * RAL_COST;
   });
 
+  const deliveryPriceComputed = computed(() => {
+    let cost = 0;
+    if (deliveryType.value === 'InMkad') {
+      cost = DELIVERY_PRICING.MIN + (deliveryDistance.value * DELIVERY_PRICING.DISTANCE);
+    }
+    return cost;
+  });
+
   const cartTotal = computed(() => {
     const itemsTotal = items.value.reduce((total, item) => total + (parseFloat(item.totalPrice) * item.quantity), 0);
-    const deliveryCost = deliveryDistance.value * MKAD_COST;
-    return itemsTotal + ralPaintingCost.value + deliveryCost;
+    let totalBeforeDiscount = itemsTotal + ralPaintingCost.value;
+    
+    // Применяем скидку
+    if (discountPercentage.value > 0) {
+      totalBeforeDiscount *= (1 - discountPercentage.value / 100);
+    }
+
+    return totalBeforeDiscount + deliveryPriceComputed.value;
   });
 
   const totalAssemblerMotivation = computed(() => {
@@ -90,11 +111,20 @@ export function useCart() {
   
   const clearCart = () => {
     items.value = [];
-    // ralPaintingCount будет сброшен в 0 через наблюдатель watch(items)
+    ralPaintingCount.value = 0; // Сбрасываем ralPaintingCount при очистке корзины
+    discountPercentage.value = 0; // Сбрасываем скидку при очистке корзины
   };
 
   const setDeliveryDistance = (distance) => {
     deliveryDistance.value = distance;
+  };
+
+  const setDeliveryType = (type) => {
+    deliveryType.value = type;
+  };
+
+  const setDiscountPercentage = (percentage) => {
+    discountPercentage.value = percentage;
   };
 
   // --- Возвращаем публичный API ---
@@ -113,5 +143,12 @@ export function useCart() {
     clearCart,
     deliveryDistance,
     setDeliveryDistance,
+    deliveryType,
+    setDeliveryDistance,
+    deliveryType,
+    setDeliveryType,
+    deliveryPriceComputed,
+    discountPercentage,
+    setDiscountPercentage,
   };
 }
