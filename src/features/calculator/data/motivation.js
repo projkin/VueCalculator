@@ -12,3 +12,54 @@ export const motivationMatrix = {
   },
   // ... и так далее для остальных комбинаций
 };
+
+export const addonMotivation = {
+  installer: {
+    Fasteners: {
+      Plunger: 100,
+      ZMetal: 0,
+      ZPlastic: 0,
+    },
+    Corners: {
+      Metal: 50,
+      Plastic: 0,
+    },
+    Handles: {
+      Metal: 30,
+      Silicon: 0,
+    },
+    WindowType: {
+      Aluminum: 100,
+      Plastic: 0,
+      NoInstall: 0,
+    },
+    ReinforcedInstall: {
+      Yes: 100,
+      No: 0,
+    },
+  },
+  assembler: {
+    Fasteners: {
+      Plunger: 50,
+      ZMetal: 0,
+      ZPlastic: 0,
+    },
+    Corners: {
+      Metal: 40,
+      Plastic: 0,
+    },
+    Handles: {
+      Metal: 40,
+      Silicon: 0,
+    },
+    WindowType: {
+      Aluminum: 0,
+      Plastic: 0,
+      NoInstall: 0,
+    },
+    ReinforcedInstall: {
+      Yes: 0,
+      No: 0,
+    },
+  },
+};

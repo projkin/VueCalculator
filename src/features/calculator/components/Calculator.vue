@@ -207,6 +207,12 @@ const calculate = () => {
     return { group: group.name, value: selectedOption?.name || 'Нет' };
   });
 
+  const motivation = calculateMotivation({
+    profileId: selectedProfile.value,
+    canvasId: selectedCanvas.value,
+    addons: selectedAddons.value,
+  });
+
   const submissionData = {
     profile: profileData.name,
     canvas: canvasData?.name || 'Нет',
@@ -217,6 +223,7 @@ const calculate = () => {
     addons: addons,
     comment: comment.value,
     totalPrice: totalPrice,
+    motivation: motivation,
   };
 
   if (selectedFrameColor.value === 'Ral' && selectedRal.value) {
@@ -241,7 +248,11 @@ const onRalColorSelect = (ralId) => {
 
 const handleAddToCart = (summary) => {
   const raspil = calculateRaspil(selectedProfile.value, summary.width, summary.height);
-  const motivation = calculateMotivation(selectedProfile.value, selectedCanvas.value);
+  const motivation = calculateMotivation({
+    profileId: selectedProfile.value,
+    canvasId: selectedCanvas.value,
+    addons: selectedAddons.value,
+  });
   const productWithDetails = { ...summary, raspil, motivation };
   emit('product-configured', productWithDetails);
 };
