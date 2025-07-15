@@ -63,13 +63,10 @@ export function createOrderPayload(form, cart, options) {
     },
   };
 
-  console.log(payload);
-  
 
   // Удаляем старые camelCase ключи, чтобы не было дублирования
   delete payload.order.orderType;
 
-  
 
   // 2. Рекурсивно конвертируем ВСЕ ключи в snake_case и возвращаем результат
   return convertKeysToSnakeCase(payload);
