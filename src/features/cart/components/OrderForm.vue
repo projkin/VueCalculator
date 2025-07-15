@@ -6,15 +6,15 @@
       <div class="col-12">
         <RadioGroup
           legend="Доставка"
-          name="delivery"
-          v-model="form.delivery"
+          name="delivery_type"
+          v-model="form.delivery_type"
           :options="deliveryOptions"
         />
       </div>
 
       <!-- Расстояние от МКАД (условно) -->
-      <div v-if="form.delivery === 'InMkad'" class="col-12">
-        <InputNumber label="Расстояние от МКАД, км" v-model="form.distance" />
+      <div v-if="form.delivery_type === 'InMkad'" class="col-12">
+        <InputNumber label="Расстояние от МКАД, км" v-model="form.delivery_distance" />
       </div>
 
       <!-- Скидка -->
@@ -30,7 +30,7 @@
         <InputSelect label="Заказ" v-model="form.orderType" :options="orderTypeOptions" />
       </div>
       <div class="col-12">
-        <InputText label="Номер договора" v-model="form.contractNumber" />
+        <InputText label="Номер договора" v-model="form.contract" />
       </div>
       <div class="col-12">
         <label for="order-date" class="form-label">Дата</label>
@@ -78,11 +78,11 @@ const { items, cartTotal, totalAssemblerMotivation, totalInstallerMotivation } =
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const form = ref({
-  delivery: 'Pickup',
-  distance: 0,
+  delivery_type: 'Pickup',
+  delivery_distance: 0,
   discount: 0,
   orderType: 'Order',
-  contractNumber: '',
+  contract: '',
   date: new Date().toISOString().slice(0, 10),
   name: '',
   phone: '',
