@@ -81,3 +81,5 @@ export const optionsPriceMatrix = {
   UsilenniyProfil42mm: {},
   VstavnieVsn45: {},
 };
+
+export const RAL_COST = 8500;

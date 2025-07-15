@@ -20,9 +20,12 @@ export function createOrderPayload(form, cart, options) {
   const formToSend = {
     ...form,
     delivery_type: selectedDelivery ? selectedDelivery.label : form.delivery_type,
-    orderType: selectedOrderType ? selectedOrderType.text : form.orderType,
+    order_type: selectedOrderType ? selectedOrderType.text : form.orderType, // <--- Изменено здесь
     discount: selectedDiscount ? selectedDiscount.text : `${form.discount}%`,
   };
+
+  // Удаляем старое поле, чтобы избежать дублирования
+  delete formToSend.orderType; 
 
   // Если доставка - самовывоз, не отправляем расстояние
   if (formToSend.delivery_type === 'Самовывоз') {
@@ -34,6 +37,7 @@ export function createOrderPayload(form, cart, options) {
     cart: {
       items: cart.items,
       total: cart.total,
+      ral_cost: cart.ralPaintingCost, // Переименовываем здесь
       motivation: cart.motivation,
     },
   };

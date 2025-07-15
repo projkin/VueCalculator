@@ -75,7 +75,7 @@ import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';
 import { createOrderPayload } from '../mappers/orderMapper.js';
 
-const { items, cartTotal, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
+const { items, cartTotal, ralPaintingCost, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const form = ref({
@@ -116,6 +116,7 @@ const submitOrder = () => {
   const cartData = {
     items: items.value,
     total: cartTotal.value,
+    ralPaintingCost: ralPaintingCost.value,
     motivation: {
       assembler: totalAssemblerMotivation.value,
       installer: totalInstallerMotivation.value,
