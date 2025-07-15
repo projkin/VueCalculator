@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import BaseForm from '../../../components/ui/form/BaseForm.vue';
 import RadioGroup from '../../../components/ui/form/RadioGroup.vue';
 import InputNumber from '../../../components/ui/form/InputNumber.vue';
@@ -90,6 +90,12 @@ const form = ref({
   comment: '',
 });
 
+watch(() => form.value.delivery_type, (newVal) => {
+  if (newVal === 'Pickup') {
+    form.value.delivery_distance = 0;
+  }
+});
+
 const deliveryOptions = [
   { value: 'Pickup', label: 'Самовывоз' },
   { value: 'InMkad', label: 'В пределах МКАД (за МКАД +40р/км)' },
@@ -113,6 +119,11 @@ const orderTypeOptions = [
 ];
 
 const submitOrder = () => {
+  // Если выбран самовывоз, обнуляем дистанцию доставки
+  if (form.value.delivery_type === 'Pickup') {
+    form.value.delivery_distance = 0;
+  }
+
   const cartData = {
     items: items.value,
     total: cartTotal.value,

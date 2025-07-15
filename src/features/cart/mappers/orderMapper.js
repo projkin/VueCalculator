@@ -3,6 +3,37 @@
  * в объект для передачи на сервер (DTO - Data Transfer Object).
  */
 
+// --- Хелперы для преобразования ключей ---
+
+/**
+ * Преобразует строку из camelCase в snake_case.
+ * @param {string} str - Исходная строка.
+ * @returns {string} Строка в snake_case.
+ */
+const toSnakeCase = (str) => {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+};
+
+/**
+ * Рекурсивно преобразует все ключи в объекте или массиве в snake_case.
+ * @param {*} obj - Исходный объект или массив.
+ * @returns {*} Новый объект или массив с ключами в snake_case.
+ */
+const convertKeysToSnakeCase = (obj) => {
+  if (Array.isArray(obj)) {
+    return obj.map(v => convertKeysToSnakeCase(v));
+  }
+  if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((acc, key) => {
+      const snakeKey = toSnakeCase(key);
+      acc[snakeKey] = convertKeysToSnakeCase(obj[key]);
+      return acc;
+    }, {});
+  }
+  return obj;
+};
+
+
 /**
  * Преобразует данные из формы и корзины в готовый для отправки на сервер объект.
  * @param {object} form - Реактивный объект form.value из компонента OrderForm.
@@ -13,32 +44,32 @@
 export function createOrderPayload(form, cart, options) {
   const { deliveryOptions, orderTypeOptions, discountOptions } = options;
 
-  const selectedDelivery = deliveryOptions.find(opt => opt.value === form.delivery_type);
-  const selectedOrderType = orderTypeOptions.find(opt => opt.value === form.orderType);
-  const selectedDiscount = discountOptions.find(opt => opt.value === form.discount);
-
-  const formToSend = { ...form };
-
-  // Заменяем значения на текстовые метки
-  formToSend.delivery_type = selectedDelivery ? selectedDelivery.label : form.delivery_type;
-  formToSend.discount = selectedDiscount ? selectedDiscount.text : `${form.discount}%`;
-
-  // Заменяем orderType на order_type
-  formToSend.order_type = selectedOrderType ? selectedOrderType.text : form.orderType;
-  delete formToSend.orderType; // Удаляем старый ключ
-
-  if (formToSend.delivery_type === 'Самовывоз') {
-    delete formToSend.delivery_distance;
-  }
-
-  // Собираем итоговый объект с ключом order
-  return {
-    order: formToSend,
+  // 1. Создаем промежуточный объект с правильными текстовыми значениями
+  // и уже с некоторыми snake_case ключами, которые мы явно задали ранее
+  const payload = {
+    order: {
+      ...form,
+      delivery_type: deliveryOptions.find(opt => opt.value === form.delivery_type)?.label || form.delivery_type,
+      order_type: orderTypeOptions.find(opt => opt.value === form.orderType)?.text || form.orderType,
+      discount: discountOptions.find(opt => opt.value === form.discount)?.text || `${form.discount}%`,
+    },
     cart: {
-      items: cart.items,
-      total: cart.total,
-      ral_cost: cart.ralPaintingCost, // Переименовываем только это поле
-      motivation: cart.motivation,
+      ...(() => {
+        const { ralPaintingCost, ...restOfCart } = cart;
+        return restOfCart;
+      })(),
+      ral_cost: cart.ralPaintingCost,
     },
   };
+
+  console.log(payload);
+  
+
+  // Удаляем старые camelCase ключи, чтобы не было дублирования
+  delete payload.order.orderType;
+
+  
+
+  // 2. Рекурсивно конвертируем ВСЕ ключи в snake_case и возвращаем результат
+  return convertKeysToSnakeCase(payload);
 }
