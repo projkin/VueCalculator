@@ -72,11 +72,11 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import BaseForm from '../../../components/ui/BaseForm.vue';
-import InputSelect from '../../../components/ui/InputSelect.vue';
-import RadioGroup from '../../../components/ui/RadioGroup.vue';
-import InputNumber from '../../../components/ui/InputNumber.vue';
-import InputText from '../../../components/ui/InputText.vue';
+import BaseForm from '../../../components/ui/form/BaseForm.vue';
+import InputSelect from '../../../components/ui/form/InputSelect.vue';
+import RadioGroup from '../../../components/ui/form/RadioGroup.vue';
+import InputNumber from '../../../components/ui/form/InputNumber.vue';
+import InputText from '../../../components/ui/form/InputText.vue';
 import RalColorPicker from '../../../components/ui/RalColorPicker.vue';
 import ProductFormSummary from './ProductFormSummary.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';

@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import InputSpinner from '../../../components/ui/InputSpinner.vue';
+import InputSpinner from '../../../components/ui/form/InputSpinner.vue';
 
 defineProps({
   item: {
