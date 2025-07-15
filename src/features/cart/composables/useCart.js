@@ -144,8 +144,6 @@ export function useCart() {
     deliveryDistance,
     setDeliveryDistance,
     deliveryType,
-    setDeliveryDistance,
-    deliveryType,
     setDeliveryType,
     deliveryPriceComputed,
     discountPercentage,
