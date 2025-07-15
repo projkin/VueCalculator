@@ -45,7 +45,7 @@
         <InputText label="Имя" placeholder="Введите имя" v-model="form.name" />
       </div>
       <div class="col-12">
-        <InputText label="Телефон" placeholder="+7 (___) ___-__-__" v-model="form.phone" />
+        <InputPhone label="Телефон" v-model="form.phone" />
       </div>
       <div class="col-12">
         <label for="order-comment" class="form-label">Комментарий</label>
@@ -70,6 +70,7 @@ import RadioGroup from '../../../components/ui/form/RadioGroup.vue';
 import InputNumber from '../../../components/ui/form/InputNumber.vue';
 import InputSelect from '../../../components/ui/form/InputSelect.vue';
 import InputText from '../../../components/ui/form/InputText.vue';
+import InputPhone from '../../../components/ui/form/InputPhone.vue';
 import Button from '../../../components/ui/Button.vue';
 import { useCart } from '../composables/useCart.js';
 import { useSubmitOrder } from '../composables/useSubmitOrder.js';

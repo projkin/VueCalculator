@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.7",
-    "vue": "^3.5.17"
+    "imask": "^7.6.1",
+    "vue": "^3.5.17",
+    "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
