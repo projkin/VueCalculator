@@ -43,9 +43,10 @@ export function useOrder() {
     productAssemblerMotivation.value + serviceAssemblerMotivation.value
   );
 
-  const totalInstallerMotivation = computed(() => 
-    productInstallerMotivation.value + serviceInstallerMotivation.value
-  );
+  const totalInstallerMotivation = computed(() => {
+    const total = productInstallerMotivation.value + serviceInstallerMotivation.value;
+    return total * (1 - discountPercentage.value / 100);
+  });
 
   const isCartEmpty = computed(() => productItems.value.length === 0 && serviceItems.value.length === 0);
 
