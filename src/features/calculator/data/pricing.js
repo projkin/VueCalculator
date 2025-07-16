@@ -5,7 +5,7 @@ export const priceMatrix = {
       White: 1000,
       Brown: 1100,
       Gray: 1150,
-      Ral: 1000,
+      Ral: 3000,
     },
     Antikoshka: {
       White: 1300,

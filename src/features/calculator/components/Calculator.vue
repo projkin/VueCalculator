@@ -3,44 +3,36 @@
     <div class="card p-4">
       <h2 class="card-title text-center mb-4">Конфигуратор</h2>
       <BaseForm class="row g-3">
-        <!-- Выбор профиля -->
         <div class="col-md-6">
           <InputSelect id="profile-type" label="Тип профиля" v-model="selectedProfile" :options="profileOptions" />
         </div>
         <div class="col-md-6">
-          <!-- Выбор полотна -->
           <div v-if="selectedProfile && canvasOptions.length > 0">
             <InputSelect id="canvas-type" label="Тип полотна" v-model="selectedCanvas" :options="canvasOptions" />
           </div>
         </div>
         <div class="col-md-6">
-          <!-- Ширина -->
           <InputNumber id="product-width" label="Ширина, мм" v-model="width" />
         </div>
         <div class="col-md-6">
-          <!-- Высота -->
           <InputNumber id="product-height" label="Высота, мм" v-model="height" />
         </div>
         <div class="col-sm-6 col-md-4">
-          <!-- Выбор цвета полотна (появляется после выбора полотна) -->
           <div v-if="selectedCanvas && colorOptions.length > 0">
             <RadioGroup legend="Цвет полотна" name="canvas-color" v-model="selectedColor" :options="colorOptions" />
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
-          <!-- Выбор цвета рамки (появляется после выбора профиля) -->
           <div v-if="selectedProfile && frameColorOptions.length > 0">
             <RadioGroup 
               legend="Цвет рамки" 
               name="frame-color" 
-              v-model="selectedFrameColor" 
+              v-model="selectedFrameColor"
               :options="frameColorOptions" 
-              @option-click="onFrameColorClick"
+              @option-click="onFrameColorOptionClick"
             />
           </div>
         </div>
-
-        <!-- Дополнительные опции -->
         <div v-for="addonGroup in addonGroups" :key="addonGroup.id" class="col-sm-6 col-md-4">
           <RadioGroup
             :legend="addonGroup.name"
@@ -50,21 +42,18 @@
             :disabled-options="disabledAddons[addonGroup.id] || []"
           />
         </div>
-
-        <!-- Комментарий -->
         <div class="col-12">
           <InputText id="comment" label="Комментарий" v-model="comment" />
         </div>
       </BaseForm>
     </div>
 
-    <!-- Итоговая конфигурация -->
     <ProductFormSummary :summary="submittedValue" @add-to-cart="handleAddToCart" />
 
-    <!-- Панель выбора RAL -->
     <RalColorPicker 
       v-model:show="showRalPicker" 
       @select="onRalColorSelect"
+      @close="onRalPickerClose"
     />
 
   </div>
@@ -78,15 +67,15 @@ import RadioGroup from '@/shared/ui/form/RadioGroup.vue';
 import InputNumber from '@/shared/ui/form/InputNumber.vue';
 import InputText from '@/shared/ui/form/InputText.vue';
 import RalColorPicker from '@/shared/ui/RalColorPicker.vue';
-import ProductFormSummary from './ProductFormSummary.vue';
-import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
-import { usePriceCalculator } from '../composables/usePriceCalculator.js';
+import ProductFormSummary from '@/features/calculator/components/ProductFormSummary.vue';
+import { productConfiguration, allCanvases, allColors, allFrameColors } from '@/features/calculator/data/configuration.js';
+import { usePriceCalculator } from '@/features/calculator/composables/usePriceCalculator.js';
 import { useRaspilCalculator } from '@/features/calculator/composables/useRaspilCalculator.js';
 import { useMotivationCalculator } from '@/features/calculator/composables/useMotivationCalculator.js';
 
 const emit = defineEmits(['product-configured']);
 
-// --- Реактивные переменные ---
+// --- State ---
 const selectedProfile = ref('');
 const selectedCanvas = ref('');
 const selectedColor = ref('');
@@ -98,16 +87,17 @@ const height = ref(null);
 const selectedAddons = ref({});
 const submittedValue = ref(null);
 const comment = ref('');
+const previousFrameColor = ref(''); // For RAL selection rollback
 
-// --- Исходные данные ---
+// --- Data ---
 const rawData = ref(productConfiguration);
 
-// --- Использование нового композита для расчета цены ---
+// --- Composables ---
 const { calculateTotalPrice } = usePriceCalculator();
 const { calculateRaspil } = useRaspilCalculator();
 const { calculateMotivation } = useMotivationCalculator();
 
-// --- Вычисляемые свойства (Computed) ---
+// --- Computed Properties ---
 const profileOptions = computed(() => {
   return rawData.value.map(item => ({ value: item.id, text: item.name }));
 });
@@ -156,7 +146,6 @@ const disabledAddons = computed(() => {
   const profile = rawData.value.find(p => p.id === selectedProfile.value);
   if (!profile || !profile.addons) return disabled;
 
-  // Собираем все активные правила `disables`
   const allDisablingRules = [];
   for (const groupId in selectedAddons.value) {
     const selectedOptionId = selectedAddons.value[groupId];
@@ -167,7 +156,6 @@ const disabledAddons = computed(() => {
     }
   }
 
-  // Применяем правила
   allDisablingRules.forEach(rule => {
     if (!disabled[rule.groupId]) {
       disabled[rule.groupId] = [];
@@ -178,7 +166,7 @@ const disabledAddons = computed(() => {
   return disabled;
 });
 
-// --- Логика расчета ---
+// --- Logic ---
 const calculate = () => {
   const profileData = rawData.value.find(p => p.id === selectedProfile.value);
   if (!profileData) { submittedValue.value = null; return; }
@@ -199,7 +187,6 @@ const calculate = () => {
 
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
-    // Если ID опции null, значит, ничего не выбрано
     if (selectedOptionId === null) {
       return { group: group.name, value: 'Нет' };
     }
@@ -234,9 +221,9 @@ const calculate = () => {
   submittedValue.value = submissionData;
 };
 
-// --- Обработчики событий ---
-const onFrameColorClick = (value) => {
-  if (value === 'Ral') {
+// --- Event Handlers ---
+const onFrameColorOptionClick = (colorId) => {
+  if (colorId === 'Ral') {
     showRalPicker.value = true;
   }
 };
@@ -244,6 +231,12 @@ const onFrameColorClick = (value) => {
 const onRalColorSelect = (ralId) => {
   selectedRal.value = ralId;
   showRalPicker.value = false;
+};
+
+const onRalPickerClose = () => {
+  if (!selectedRal.value) {
+    selectedFrameColor.value = previousFrameColor.value;
+  }
 };
 
 const handleAddToCart = (summary) => {
@@ -257,7 +250,7 @@ const handleAddToCart = (summary) => {
   emit('product-configured', productWithDetails);
 };
 
-// --- Наблюдатели (Watchers) ---
+// --- Watchers ---
 watch(selectedProfile, (newProfileId) => {
   const profile = rawData.value.find(p => p.id === newProfileId);
   if (!profile) return;
@@ -281,8 +274,11 @@ watch(selectedCanvas, (newCanvasId) => {
   selectedColor.value = (canvas?.colors || []).length > 0 ? canvas.colors[0] : '';
 });
 
-watch(selectedFrameColor, (newFrameColor) => {
-  if (newFrameColor !== 'Ral') {
+watch(selectedFrameColor, (newFrameColor, oldFrameColor) => {
+  if (newFrameColor === 'Ral') {
+    previousFrameColor.value = oldFrameColor;
+    showRalPicker.value = true;
+  } else {
     selectedRal.value = '';
   }
 });
@@ -296,13 +292,11 @@ watch(disabledAddons, (newDisabled) => {
     const currentSelection = selectedAddons.value[groupId];
     const currentlyDisabled = newDisabled[groupId] || [];
 
-    // Случай 1: Текущий выбор стал недоступен
     if (currentSelection && currentlyDisabled.includes(currentSelection)) {
       const firstAvailable = group.options.find(opt => !currentlyDisabled.includes(opt.id));
       selectedAddons.value[groupId] = firstAvailable ? firstAvailable.id : null;
     }
 
-    // Случай 2: Группа была полностью отключена (выбор null), а теперь появились доступные опции
     if (currentSelection === null) {
       const firstAvailable = group.options.find(opt => !currentlyDisabled.includes(opt.id));
       if (firstAvailable) {
@@ -316,16 +310,11 @@ watch([selectedProfile, selectedCanvas, selectedColor, selectedFrameColor, selec
   calculate();
 }, { deep: true });
 
-// --- Хук жизненного цикла ---
+// --- Lifecycle Hooks ---
 onMounted(() => {
   const defaultProfile = rawData.value.find(p => p.default);
   if (defaultProfile) {
     selectedProfile.value = defaultProfile.id;
   }
 });
-
 </script>
-
-<style>
-
-</style>

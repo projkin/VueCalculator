@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { allRalColors } from '../../features/calculator/data/configuration.js';
+import { allRalColors } from '@/features/calculator/data/configuration.js';
 
 defineProps({
   show: {
@@ -37,12 +37,13 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['update:show', 'select']);
+const emit = defineEmits(['update:show', 'select', 'close']);
 
 const ralColors = allRalColors;
 
 const close = () => {
-  emit('update:show', false);
+  emit('close'); // Сначала сообщаем о закрытии
+  emit('update:show', false); // Затем скрываем панель
 };
 
 const selectColor = (ralId) => {
