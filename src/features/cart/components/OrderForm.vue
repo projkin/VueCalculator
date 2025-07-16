@@ -72,13 +72,29 @@ import InputSelect from '../../../components/ui/form/InputSelect.vue';
 import InputText from '../../../components/ui/form/InputText.vue';
 import InputPhone from '../../../components/ui/form/InputPhone.vue';
 import Button from '../../../components/ui/Button.vue';
-import { useCart } from '../composables/useCart.js';
-import { useSubmitOrder } from '../composables/useSubmitOrder.js';
+import { useProductCart } from '../composables/useProductCart.js';
+import { useServiceCart } from '../composables/useServiceCart.js';
 import { useOrder } from '../composables/useOrder.js';
+import { useSubmitOrder } from '../composables/useSubmitOrder.js';
 import { createOrderPayload } from '../mappers/orderMapper.js';
 
-const { items, ralPaintingCost, ralPaintingCount, totalAssemblerMotivation, totalInstallerMotivation } = useCart();
-const { cartTotal, deliveryPriceComputed, deliveryDistance, deliveryType, discountPercentage, setDeliveryDistance, setDeliveryType, setDiscountPercentage } = useOrder();
+// Carts Data
+const { productItems, ralPaintingCost, ralPaintingCount } = useProductCart();
+const { serviceItems } = useServiceCart();
+
+// Order Logic
+const { 
+  deliveryDistance, 
+  deliveryType, 
+  discountPercentage, 
+  deliveryPrice, 
+  grandTotal, 
+  totalAssemblerMotivation, 
+  totalInstallerMotivation,
+  isCartEmpty
+} = useOrder();
+
+// Submission Logic
 const { isLoading, error, isSuccess, submit } = useSubmitOrder();
 
 const initialFormState = {
@@ -95,26 +111,26 @@ const initialFormState = {
 
 const form = ref({ ...initialFormState });
 
-watch(() => items.value.length, (newLength) => {
-  if (newLength === 0) {
+watch(isCartEmpty, (isEmpty) => {
+  if (isEmpty) {
     form.value = { ...initialFormState };
   }
 });
 
 watch(() => form.value.delivery_type, (newVal) => {
+  deliveryType.value = newVal;
   if (newVal === 'Pickup') {
     form.value.delivery_distance = 0;
   }
-  setDeliveryDistance(form.value.delivery_distance);
-  setDeliveryType(newVal);
+  deliveryDistance.value = form.value.delivery_distance;
 });
 
 watch(() => form.value.delivery_distance, (newVal) => {
-  setDeliveryDistance(newVal);
+  deliveryDistance.value = newVal;
 });
 
 watch(() => form.value.discount, (newVal) => {
-  setDiscountPercentage(newVal);
+  discountPercentage.value = newVal;
 });
 
 const deliveryOptions = [
@@ -140,14 +156,13 @@ const orderTypeOptions = [
 ];
 
 const submitOrder = () => {
-  
-
   const cartData = {
-    items: items.value,
-    total: cartTotal.value,
+    products: productItems.value,
+    services: serviceItems.value,
+    total: grandTotal.value,
     ralPaintingCost: ralPaintingCost.value,
     ralPaintingCount: ralPaintingCount.value,
-    deliveryPrice: deliveryPriceComputed.value,
+    deliveryPrice: deliveryPrice.value,
     motivation: {
       assembler: totalAssemblerMotivation.value,
       installer: totalInstallerMotivation.value,

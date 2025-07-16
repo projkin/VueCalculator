@@ -1,33 +1,25 @@
 <template>
-  <div class="bg-success-subtle mt-3 p-4 card">
+  <div class="bg-light mt-3 p-4 card">
     <div class="d-flex justify-content-end align-items-center mb-2">     
-        <h5 class="mb-0 me-3">Всего в корзине: <strong>{{ Math.round(cartTotal) }} &#8381;</strong></h5>
-        <button class="btn btn-danger" @click="$emit('clear-cart')">Очистить</button>
+        <h5 class="mb-0 me-3">Итого: <strong>{{ Math.round(grandTotal) }} &#8381;</strong></h5>
+        <button class="btn btn-danger" @click="clearOrder">Очистить все</button>
     </div>   
     <div class="text-end text-muted small">
       <span>
-        Мотивация: Сборщик - <strong>{{ Math.round(totalAssemblerMotivation) }}</strong>,
-        Монтажник - <strong>{{ Math.round(totalInstallerMotivation) }}</strong>
+        Общая мотивация: Сборщик - <strong>{{ totalAssemblerMotivation.toFixed(2) }}</strong>,
+        Монтажник - <strong>{{ totalInstallerMotivation.toFixed(2) }}</strong>
       </span>  
     </div>
   </div>
 </template>
 
 <script setup>
-  defineProps({
-    cartTotal: {
-      type: Number,
-      required: true,
-    },
-    totalAssemblerMotivation: {
-      type: Number,
-      required: true,
-    },
-    totalInstallerMotivation: {
-      type: Number,
-      required: true,
-    },
-  });
+import { useOrder } from '../composables/useOrder.js';
 
-  defineEmits(['clear-cart']);
+const { 
+  grandTotal, 
+  totalAssemblerMotivation, 
+  totalInstallerMotivation, 
+  clearOrder 
+} = useOrder();
 </script>

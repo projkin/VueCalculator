@@ -1,68 +1,80 @@
 import { ref, computed, watch } from 'vue';
 import { DELIVERY_PRICING } from '@/features/calculator/data/pricing.js';
-import { useCart } from './useCart.js';
+import { useProductCart } from './useProductCart.js';
+import { useServiceCart } from './useServiceCart.js';
 
-// --- Реактивные переменные состояния заказа ---
+// --- Order-specific state ---
 const deliveryDistance = ref(0);
 const deliveryType = ref('Pickup');
 const discountPercentage = ref(0);
 
 export function useOrder() {
-  const { items, ralPaintingCost, isEmpty } = useCart();
+  const { 
+    productItems, 
+    productsSubtotal, 
+    ralPaintingCost, 
+    totalAssemblerMotivation: productAssemblerMotivation,
+    totalInstallerMotivation: productInstallerMotivation,
+    clearProductCart
+  } = useProductCart();
 
-  // --- Вычисляемые свойства ---
-  const deliveryPriceComputed = computed(() => {
-    let cost = 0;
+  const { 
+    serviceItems, 
+    servicesSubtotal, 
+    totalAssemblerMotivation: serviceAssemblerMotivation,
+    totalInstallerMotivation: serviceInstallerMotivation,
+    clearServiceCart
+  } = useServiceCart();
+
+  const deliveryPrice = computed(() => {
     if (deliveryType.value === 'InMkad') {
-      cost = DELIVERY_PRICING.MIN + (deliveryDistance.value * DELIVERY_PRICING.DISTANCE);
+      return DELIVERY_PRICING.MIN + (deliveryDistance.value * DELIVERY_PRICING.DISTANCE);
     }
-    return cost;
+    return 0;
   });
 
-  const cartTotal = computed(() => {
-    const itemsTotal = items.value.reduce((total, item) => total + (parseFloat(item.totalPrice) * item.quantity), 0);
-    let totalBeforeDiscount = itemsTotal + ralPaintingCost.value;
-    
-    // Применяем скидку
-    if (discountPercentage.value > 0) {
-      totalBeforeDiscount *= (1 - discountPercentage.value / 100);
-    }
-
-    const finalTotal = totalBeforeDiscount + deliveryPriceComputed.value;
-    return finalTotal;
+  const grandTotal = computed(() => {
+    const totalBeforeDiscount = productsSubtotal.value + servicesSubtotal.value + ralPaintingCost.value;
+    const discountedTotal = totalBeforeDiscount * (1 - discountPercentage.value / 100);
+    return discountedTotal + deliveryPrice.value;
   });
 
-  // --- Методы для обновления состояния ---
-  const setDeliveryDistance = (distance) => {
-    deliveryDistance.value = distance;
+  const totalAssemblerMotivation = computed(() => 
+    productAssemblerMotivation.value + serviceAssemblerMotivation.value
+  );
+
+  const totalInstallerMotivation = computed(() => 
+    productInstallerMotivation.value + serviceInstallerMotivation.value
+  );
+
+  const isCartEmpty = computed(() => productItems.value.length === 0 && serviceItems.value.length === 0);
+
+  const clearOrder = () => {
+    clearProductCart();
+    clearServiceCart();
+    // Resetting order state is handled by the watcher below
   };
 
-  const setDeliveryType = (type) => {
-    deliveryType.value = type;
-  };
-
-  const setDiscountPercentage = (percentage) => {
-    discountPercentage.value = percentage;
-  };
-
-  // --- Наблюдатель для сброса состояния заказа при пустой корзине ---
-  watch(isEmpty, (isCartEmpty) => {
-    if (isCartEmpty) {
+  watch(isCartEmpty, (isEmpty) => {
+    if (isEmpty) {
       deliveryDistance.value = 0;
       deliveryType.value = 'Pickup';
       discountPercentage.value = 0;
     }
   });
 
-  // --- Возвращаем публичный API ---
   return {
+    // State
     deliveryDistance,
     deliveryType,
     discountPercentage,
-    deliveryPriceComputed,
-    cartTotal,
-    setDeliveryDistance,
-    setDeliveryType,
-    setDiscountPercentage,
+    // Computed
+    deliveryPrice,
+    grandTotal,
+    totalAssemblerMotivation,
+    totalInstallerMotivation,
+    isCartEmpty,
+    // Methods
+    clearOrder,
   };
 }

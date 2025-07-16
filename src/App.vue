@@ -39,14 +39,14 @@ import { ref } from 'vue';
 import Calculator from './features/calculator/components/Calculator.vue';
 import Services from './features/services/components/Services.vue';
 import Cart from './features/cart/components/Cart.vue';
-import { useCart } from './features/cart/composables/useCart.js';
+import { useProductCart } from './features/cart/composables/useProductCart.js';
 
 const activeTab = ref('constructor'); // 'constructor' or 'services'
 
-const { addItem } = useCart();
+const { addProduct } = useProductCart();
 
 const addProductToCart = (product) => {
-  addItem(product);
+  addProduct(product);
 };
 </script>
 

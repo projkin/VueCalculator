@@ -14,9 +14,9 @@
 
 <script setup>
 import InputSpinner from "@/components/ui/form/InputSpinner.vue";
-import { useCart } from "@/features/cart/composables/useCart";
+import { useProductCart } from "@/features/cart/composables/useProductCart";
 
-const { ralPaintingCount, ralPaintingCost } = useCart();
+const { ralPaintingCount, ralPaintingCost } = useProductCart();
 
 </script>
 

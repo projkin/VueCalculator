@@ -10,10 +10,10 @@
 <script setup>
 import ServicesList from './ServicesList.vue';
 import { useServices } from '../composables/useServices.js';
-import { useCart } from '@/features/cart/composables/useCart.js';
+import { useServiceCart } from '@/features/cart/composables/useServiceCart.js';
 
 const { services } = useServices();
-const { addItem } = useCart();
+const { addService } = useServiceCart();
 
 const handleAddToCart = (service) => {
   // Рассчитываем мотивацию для услуги
@@ -32,11 +32,9 @@ const handleAddToCart = (service) => {
     name: service.name,
     price: service.price,
     quantity: service.quantity,
-    totalPrice: service.price, // У услуг цена за единицу и есть итоговая цена
-    type: 'service', // Добавляем тип для идентификации в корзине
     motivation: motivation,
   };
-  addItem(cartItem);
+  addService(cartItem);
 };
 </script>
 

@@ -1,17 +1,10 @@
 <template>
   <div class="list-group-item">
     <div class="d-flex justify-content-between align-items-start">
-      <!-- Инфо о товаре -->
-      <div v-if="item.type !== 'service'">
+      <div>
         <strong>{{ item.profile }}</strong> ({{ item.width }}x{{ item.height }}мм)
         <small class="d-block text-muted">Полотно: {{ item.canvas }} ({{ item.color }}). Рамка: {{ item.frameColor }}<span v-if="item.ralCode"> ({{ item.ralCode }})</span></small>
       </div>
-      <div v-else>
-        <strong>{{ item.name }}</strong>
-        <small class="d-block text-muted">Услуга</small>
-      </div>
-
-      <!-- Управление количеством и ценой -->
       <div class="d-flex align-items-center">
         <InputSpinner 
           :model-value="item.quantity"
@@ -22,25 +15,18 @@
         <button class="btn btn-danger btn-sm" @click="$emit('remove')">Удалить</button>
       </div>
     </div>
-
-    <!-- Дополнительная информация -->
     <div class="mt-2 small text-muted">
-      <!-- Для конструкций -->
-      <template v-if="item.type !== 'service'">
-        <div v-if="item.addons && item.addons.length > 0">
-          <div v-for="addon in item.addons" :key="addon.group">
-            <span>{{ addon.group }}: {{ addon.value }}</span>
-          </div>
+      <div v-if="item.addons && item.addons.length > 0">
+        <div v-for="addon in item.addons" :key="addon.group">
+          <span>{{ addon.group }}: {{ addon.value }}</span>
         </div>
-        <div v-if="item.comment">
-          <span>Комментарий: {{ item.comment }}</span>
-        </div>
-        <div v-if="item.raspil" class="mt-1 border-top pt-1">
-          <span>Распил: {{ item.raspil.raspilWidth }}x{{ item.raspil.raspilHeight }}мм, Импост: {{ item.raspil.impost }}мм</span>
-        </div>
-      </template>
-      
-      <!-- Общее для всех -->
+      </div>
+      <div v-if="item.comment">
+        <span>Комментарий: {{ item.comment }}</span>
+      </div>
+      <div v-if="item.raspil" class="mt-1 border-top pt-1">
+        <span>Распил: {{ item.raspil.raspilWidth }}x{{ item.raspil.raspilHeight }}мм, Импост: {{ item.raspil.impost }}мм</span>
+      </div>
       <div v-if="item.motivation" class="mt-1 border-top pt-1">
         <span>Мотивация: Сборщик {{ (item.motivation.assembler * item.quantity).toFixed(2) }}, Монтажник {{ (item.motivation.installer * item.quantity).toFixed(2) }}</span>
       </div>
@@ -49,14 +35,8 @@
 </template>
 
 <script setup>
-import InputSpinner from '../../../components/ui/form/InputSpinner.vue';
+import InputSpinner from '@/components/ui/form/InputSpinner.vue';
 
-defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-});
-
+defineProps({ item: Object });
 defineEmits(['remove', 'update-quantity']);
 </script>
