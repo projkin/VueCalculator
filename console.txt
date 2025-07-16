@@ -1,1 +1,57 @@
 
+{
+  "products": [
+    {
+      "profile": "Ramochnaya", // ID из конфигурации configuration.js
+      "canvas": "Standartnoe", // ID из конфигурации
+      "color": "White",     // ID из конфигурации
+      "frameColor": "White", // ID из конфигурации
+      "width": 1000,
+      "height": 1000,
+      "addons": [
+        {
+          "groupId": "Fasteners", // ID из конфигурации
+          "optionId": "Plunger", // ID из конфигурации
+        },
+        {
+          "groupId": "Corners", // ID из конфигурации
+          "optionId": "Metal", // ID из конфигурации
+        },
+        {
+          "groupId": "Handles", // ID из конфигурации
+          "optionId": "Metal", // ID из конфигурации
+        },
+        {
+          "groupId": "WindowType", // ID из конфигурации
+          "optionId": "Aluminum",  // ID из конфигурации
+        },
+        {
+          "groupId": "ReinforcedInstall",   // ID из конфигурации
+          "optionId": "Yes",                // ID из конфигурации
+        }
+      ],
+      "comment": "",
+      "totalPrice": 3500,
+      "motivation": {
+        "assembler": 230,
+        "installer": 580
+      },
+      "raspil": {
+        "raspilWidth": 940,
+        "raspilHeight": 940,
+        "impost": 953
+      },
+      "cartItemId": 1,
+      "quantity": 1
+    }
+  ],
+  "services": [],
+  "total": 3500,
+  "ralPaintingCost": 0,
+  "ralPaintingCount": 0,
+  "deliveryPrice": 0,
+  "motivation": {
+    "assembler": 230,
+    "installer": 580
+  }
+}

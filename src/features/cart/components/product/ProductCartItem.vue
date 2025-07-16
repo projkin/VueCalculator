@@ -2,8 +2,8 @@
   <div class="list-group-item">
     <div class="d-flex justify-content-between align-items-start">
       <div>
-        <strong>{{ item.profile }}</strong> ({{ item.width }}x{{ item.height }}мм)
-        <small class="d-block text-muted">Полотно: {{ item.canvas }} ({{ item.color }}). Рамка: {{ item.frameColor }}<span v-if="item.ralCode"> ({{ item.ralCode }})</span></small>
+        <strong>{{ getProfileNameById(item.profile) }}</strong> ({{ item.width }}x{{ item.height }}мм)
+        <small class="d-block text-muted">Полотно: {{ getCanvasNameById(item.canvas) }} ({{ getColorNameById(item.color) }}). Рамка: {{ getFrameColorNameById(item.frameColor) }}<span v-if="item.ralCode"> ({{ item.ralCode }})</span></small>
       </div>
       <div class="d-flex align-items-center">
         <InputSpinner 
@@ -17,8 +17,8 @@
     </div>
     <div class="mt-2 small text-muted">
       <div v-if="item.addons && item.addons.length > 0">
-        <div v-for="addon in item.addons" :key="addon.group">
-          <span>{{ addon.group }}: {{ addon.value }}</span>
+        <div v-for="addon in item.addons" :key="addon.groupId">
+          <span>{{ getAddonGroupNameById(item.profile, addon.groupId) }}: {{ getAddonOptionNameById(item.profile, addon.groupId, addon.optionId) }}</span>
         </div>
       </div>
       <div v-if="item.comment">
@@ -36,6 +36,7 @@
 
 <script setup>
 import InputSpinner from '@/shared/ui/form/InputSpinner.vue';
+import { getProfileNameById, getCanvasNameById, getColorNameById, getFrameColorNameById, getAddonOptionNameById, getAddonGroupNameById } from '@/shared/utils/productHelpers.js';
 
 defineProps({ item: Object });
 defineEmits(['remove', 'update-quantity']);

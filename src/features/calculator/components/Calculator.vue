@@ -198,10 +198,9 @@ const calculate = () => {
   const addons = (profileData.addons || []).map(group => {
     const selectedOptionId = selectedAddons.value[group.id];
     if (selectedOptionId === null) {
-      return { group: group.name, value: 'Нет' };
+      return { groupId: group.id, optionId: null };
     }
-    const selectedOption = group.options.find(opt => opt.id === selectedOptionId);
-    return { group: group.name, value: selectedOption?.name || 'Нет' };
+    return { groupId: group.id, optionId: selectedOptionId };
   });
 
   const motivation = calculateMotivation({
@@ -211,10 +210,10 @@ const calculate = () => {
   });
 
   const submissionData = {
-    profile: profileData.name,
-    canvas: canvasData?.name || 'Нет',
-    color: colorData?.name || 'Нет',
-    frameColor: allFrameColors[selectedFrameColor.value]?.name || 'Нет',
+    profile: selectedProfile.value,
+    canvas: selectedCanvas.value,
+    color: selectedColor.value,
+    frameColor: selectedFrameColor.value,
     width: width.value,
     height: height.value,
     addons: addons,
@@ -224,7 +223,6 @@ const calculate = () => {
   };
 
   if (selectedFrameColor.value === 'Ral' && selectedRal.value) {
-    submissionData.frameColor = 'RAL';
     submissionData.ralCode = selectedRal.value;
   }
 

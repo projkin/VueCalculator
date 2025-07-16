@@ -1,5 +1,8 @@
 import { raspilMatrix } from '@/features/calculator/data/raspil.js';
-import { productConfiguration } from '@/features/calculator/data/configuration.js';
+
+const calcPerimeter = (effectiveWidth, effectiveHeight, quantity) => {
+  return (((effectiveWidth * 2) + (effectiveHeight * 2)) * quantity) / 1000; // Переводим в метры
+};
 
 export function mapProductsForProduction(productItems) {
   if (!productItems || productItems.length === 0) {
@@ -9,43 +12,39 @@ export function mapProductsForProduction(productItems) {
   const aggregatedProducts = new Map();
 
   productItems.forEach(item => {
-    const frameColor = item.frameColor === 'Ral' ? `RAL ${item.ralCode}` : item.frameColor;
-    const key = `${item.profile}_${frameColor}_${item.width}x${item.height}`;
-    console.log(item);
-    
+    const key = `${item.profile}_${item.frameColor}_${item.ralCode || ''}_${item.width}x${item.height}`;
 
-    // Находим ID профиля по его названию
-    const profileConfig = productConfiguration.find(p => p.name === item.profile);
-    const profileId = profileConfig ? profileConfig.id : null;
+    // Используем profileId напрямую из элемента корзины
+    const profileId = item.profile;
 
     // Получаем данные для распила по ID профиля
     const raspilData = profileId ? raspilMatrix[profileId] : undefined;
+
+    let effectiveWidth = item.width;
+    let effectiveHeight = item.height;
+
+    if (raspilData) {
+      effectiveWidth = item.width - raspilData.width;
+      effectiveHeight = item.height - raspilData.height;
+    }
     
     if (aggregatedProducts.has(key)) {
       const existing = aggregatedProducts.get(key);
       existing.quantity += item.quantity;
       // Пересчитываем area для существующей группы с новым агрегированным количеством
-      if (raspilData) {
-        const effectiveWidth = item.width - raspilData.width;
-        const effectiveHeight = item.height - raspilData.height;
-        existing.area = (((effectiveWidth * 2) + (effectiveHeight * 2)) * existing.quantity) / 1000; // Переводим в метры
-      }
+      existing.area = calcPerimeter(effectiveWidth, effectiveHeight, existing.quantity);
     } else {
-      let area = 0;
-      if (raspilData) {
-        const effectiveWidth = item.width - raspilData.width;
-        const effectiveHeight = item.height - raspilData.height;
-        area = (((effectiveWidth * 2) + (effectiveHeight * 2)) * item.quantity) / 1000; // Переводим в метры
-      }
+      let area = calcPerimeter(effectiveWidth, effectiveHeight, item.quantity);
       aggregatedProducts.set(key, {
         profile: item.profile,
-        frame_color: frameColor,
+        frameColorId: item.frameColor,
+        ralCode: item.ralCode,
         size: {
           width: item.width,
           height: item.height,
         },
         quantity: item.quantity,
-        area: area, 
+        area: area,
       });
     }
   });

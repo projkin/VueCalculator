@@ -48,7 +48,11 @@ export function useProductCart() {
   );
 
   const addItem = (product) => {
-    items.value.push({ ...product, cartItemId: nextItemId++, quantity: 1 });
+    items.value.push({
+      ...product,
+      cartItemId: nextItemId++,
+      quantity: 1,
+    });
   };
 
   const removeItem = (cartItemId) => {

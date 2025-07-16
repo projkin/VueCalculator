@@ -1,9 +1,1 @@
-// Входящие данные 
-w = 1200 			// Ширина профила
-h = 1600 			// высота профиля
-raspilWidth = 60	// Число распила от ширины
-raspilHeight = 30	// Число распила от высоты
-quantity = 3		// Количество
-
-// Формула
-area = ((width - raspilWidth) * 2) + ((height - raspilHeight) * 2) * quantity (area преобразовать в метры)
+Uncaught ReferenceError: frameColorDisplay is not defined profileCalculator.js:43:9
