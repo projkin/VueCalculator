@@ -1,18 +1,20 @@
 <template>
-  <div class="container mt-5">
+  <div class="mt-5">
     <div class="card p-4">
       <h2 class="card-title text-center mb-4">Услуги</h2>
-      <ServicesList :services="services" @add-to-cart="handleAddToCart" />
+      <ServiceSearch v-model="searchQuery" />
+      <ServicesList :services="filteredServices" @add-to-cart="handleAddToCart" />
     </div>
   </div>
 </template>
 
 <script setup>
+import ServiceSearch from './ServiceSearch.vue';
 import ServicesList from './ServicesList.vue';
 import { useServices } from '../composables/useServices.js';
 import { useServiceCart } from '@/features/cart/composables/useServiceCart.js';
 
-const { services } = useServices();
+const { searchQuery, filteredServices } = useServices();
 const { addService } = useServiceCart();
 
 const handleAddToCart = (service) => {

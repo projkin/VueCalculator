@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="!isCartEmpty">
+  <div v-if="!isCartEmpty">
     <ProductCart />
     <ServiceCart />
     <CartTotal />
