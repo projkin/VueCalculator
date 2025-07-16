@@ -1,45 +1,48 @@
-{id: 12, caption: "ПВХ Замена уплотнителя EPDM м.п.", price: 300, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 13, caption: "ПВХ Замена уплотнителя Кулон (шлегель) м.п.", price: 400, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 24, caption: "ПВХ Лёгкая регулировка створки", price: 700, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 25, caption: "ПВХ Лёгкая регулировка высокой створки (от 180см до 220см)", price: 900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 26, caption: "ПВХ Лёгкая регулировка высокой створки (от 220см до 300см)", price: 1300, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 27, caption: "ПВХ Сложная регулировка створки", price: 1800, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 28, caption: "ПВХ Сложная регулировка высокой створки (от 180см до 220см)", price: 2200, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 29, caption: "ПВХ Сложная регулировка высокой створки (от 220см до 300см)", price: 2500, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 30, caption: "ПВХ Лёгкая регулировка двери", price: 900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 31, caption: "ПВХ Сложная регулировка двери", price: 2800, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 42, caption: "ДЕР Замена уплотнителя EPDM", price: 400, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 43, caption: "ДЕР Замена уплотнителя Кулон (шлегель)", price: 500, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 46, caption: "ДЕР Лёгкая регулировка створки", price: 700, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 47, caption: "ДЕР Лёгкая регулировка высокой створки (от 180см до 220см)", price: 900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 48, caption: "ДЕР Лёгкая регулировка высокой створки (от 220см до 300см)", price: 1300, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 49, caption: "ДЕР Сложная регулировка створки", price: 1600, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 50, caption: "ДЕР Сложная регулировка высокой створки (от 180см до 220см)", price: 1900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 51, caption: "ДЕР Сложная регулировка высокой створки (от 220см до 300см)", price: 2300, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 52, caption: "ДЕР Лёгкая регулировка двери", price: 900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 53, caption: "ДЕР Сложная регулировка двери", price: 1900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 54, caption: "АЛ Замена ручки от 5.000", price: 5000, unit: "шт.", motivation: [200, 0], 'math': 1},
-    {id: 61, caption: "АЛ Замена уплотнителя на алюминиевые окна (резиновый уплотнитель)  М.П.", price: 400, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 62, caption: "АЛ Замена уплотнителя на алюминиевые окна (средний контур)", price: 600, unit: "м.п.", motivation: [0.3, 0], 'math': 2},
-    {id: 65, caption: "АЛ Лёгкая регулировка AL створки", price: 800, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 66, caption: "АЛ Лёгкая регулировка AL высокой створки (от 180см до 220см)", price: 1000, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 67, caption: "АЛ Лёгкая регулировка AL высокой створки (от 220см до 300см)", price: 1300, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 68, caption: "АЛ Сложная регулировка AL створки", price: 1900, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 69, caption: "АЛ Сложная регулировка AL высокой створки (от 180см до 220см)", price: 2500, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 70, caption: "АЛ Сложная регулировка AL высокой створки (от 220см до 300см)", price: 3500, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 71, caption: "АЛ Лёгкая регулировка AL двери", price: 1000, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 72, caption: "АЛ Сложная регулировка AL двери", price: 2500, unit: "шт.", motivation: [0.5, 0], 'math': 2},
-    {id: 73, caption: "АЛ Установка ручка скоба  в зависимости от размера", price: 2500, unit: "шт.", motivation: [400, 0], 'math': 1},
-    {id: 74, caption: "АЛ Установка замка", price: 2500, unit: "шт.", motivation: [400, 0], 'math': 1},
-    {id: 79, caption: "АЛ Ограничитель открывания створки (гребёнка)", price: 900, unit: "шт.", motivation: [200, 0], 'math': 2},
-    {id: 92, caption: "Заглушка вместо ручки", price: 500, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 93, caption: "Детский замок внизу (блокиратор створки)", price: 1000, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 94, caption: "Тросиковый ограничитель", price: 1300, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 95, caption: "Ручка с ключом", price: 1500, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 96, caption: "Ручка на створку или дверь", price: 700, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 97, caption: "Ручка на створку или дверь (люкс)", price: 1000, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 99, caption: "Гребёнка пластик", price: 500, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 100, caption: "Гребёнка металл", price: 600, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 101, caption: "Ручка курильщика (пластик) с установкой", price: 400, unit: "шт.", motivation: [100, 0], 'math': 1},
-    {id: 102, caption: "Ручка курильщика (металл) с установкой", price: 700, unit: "шт.", motivation: [100, 0], 'math': 1},
+[
+    {
+        profile: 'Рамочная',         
+        frame_color: 'белая', 
+        size: {
+            width: 1200,
+            height: 1590
+        },
+        quantity: 5,
+        area: 24.5 
+    },
+    {
+        profile: 'Рамочная',         
+        frame_color: 'белая', 
+        size: {
+            width: 1400,
+            height: 2100
+        },
+        quantity: 2,
+        area: 13 
+    },
+    {
+        profile: 'Рамочная',         
+        frame_color: 'белая', 
+        size: {
+            width: 1800,
+            height: 2100
+        },
+        quantity: 6,
+        area: 34.2 
+    },
+    {
+        profile: 'Рамочная',         
+        frame_color: 'серая', 
+        size: {
+            width: 1000,
+            height: 1000
+        },
+        quantity: 4,
+        area: 12.7 
+    },
 ]
+
+// Примерная табличка по итогу для проверки рассчетов
+Сетка рамочная белая (1200х1590) - 5шт - 24.5
+Сетка рамочная белая (1400х2100) - 2шт - 13
+Сетка рамочная белая (1800х2100) - 6шт - 34.2
+Сетка рамочная серая (1000х1000) - 4шт - 12.7
