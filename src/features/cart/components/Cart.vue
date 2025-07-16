@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div v-if="cartItems.length > 0">
       <RalPaintingForm v-if="hasRalItems" />
       <CartList 

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="card p-4">
       <h2 class="card-title text-center mb-4">Конфигуратор</h2>
       <BaseForm class="row g-3">
