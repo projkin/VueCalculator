@@ -11,7 +11,7 @@
 
 <script setup>
 import ServiceCartList from './ServiceCartList.vue';
-import { useServiceCart } from '../composables/useServiceCart.js';
+import { useServiceCart } from '@/features/cart/composables/useServiceCart.js';
 
 const { 
   serviceItems, 

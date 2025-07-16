@@ -13,7 +13,7 @@
 <script setup>
 import ProductCartList from './ProductCartList.vue';
 import RalPaintingForm from './RalPaintingForm.vue';
-import { useProductCart } from '../composables/useProductCart.js';
+import { useProductCart } from '@/features/cart/composables/useProductCart.js';
 
 const { 
   productItems, 

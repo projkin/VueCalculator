@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import ServiceCartItem from './ServiceCartItem.vue';
+import ServiceCartItem from '@/features/cart/components/service/ServiceCartItem.vue';
 
 defineProps({ items: Array });
 defineEmits(['remove-item', 'update-item-quantity']);
