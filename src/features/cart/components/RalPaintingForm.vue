@@ -1,5 +1,5 @@
 <template>
-  <div class="ral-painting-form">
+  <div class="card p-3 mb-1">
     <h5>Стоимость покраски RAL</h5>
     <div class="row align-items-center">
       <div class="col">
@@ -21,10 +21,7 @@ const { ralPaintingCount, ralPaintingCost } = useProductCart();
 </script>
 
 <style scoped>
-.ral-painting-form {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid #dee2e6;
+.card {
   border-radius: 0.25rem;
 }
 </style>
