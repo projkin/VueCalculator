@@ -82,7 +82,7 @@ import ProductFormSummary from './ProductFormSummary.vue';
 import { productConfiguration, allCanvases, allColors, allFrameColors } from '../data/configuration.js';
 import { usePriceCalculator } from '../composables/usePriceCalculator.js';
 import { useRaspilCalculator } from '../composables/useRaspilCalculator.js';
-import { useMotivationCalculator } from '../composables/useMotivationCalculator.js';
+import { useMotivationCalculator } from '@/features/calculator/composables/useMotivationCalculator.js';
 
 const emit = defineEmits(['product-configured']);
 
