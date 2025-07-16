@@ -1,5 +1,5 @@
 <template>
-  <fieldset>
+  <fieldset :disabled="disabled">
     <legend class="form-label fs-6">{{ legend }}</legend>
     <div 
       v-for="option in options" 
@@ -18,12 +18,13 @@
         @click="$emit('option-click', option.value)"
       />
       <label 
-        class="form-check-label" 
+        class="form-check-label d-flex align-items-center" 
         :for="`${name}-${option.value}`"
         :class="{ 'text-muted': disabledOptions.includes(option.value) }"
       >
         {{ option.label }}
         <span v-if="option.extra" class="text-muted ms-1">{{ option.extra }}</span>
+        <slot name="option-extra" :option="option"></slot>
       </label>
     </div>
   </fieldset>
@@ -54,6 +55,10 @@ defineProps({
   disabledOptions: {
     type: Array,
     default: () => [],
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

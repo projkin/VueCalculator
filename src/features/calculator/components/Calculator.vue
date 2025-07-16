@@ -30,7 +30,16 @@
               v-model="selectedFrameColor"
               :options="frameColorOptions" 
               @option-click="onFrameColorOptionClick"
-            />
+              :disabled="showRalPicker"
+            >
+              <template #option-extra="{ option }">
+                <span 
+                  v-if="option.value === 'Ral' && selectedRalObject && selectedRalObject.hex"
+                  class="ral-color-swatch ms-2 mt-1"
+                  :style="{ backgroundColor: selectedRalObject.hex }"
+                ></span>
+              </template>
+            </RadioGroup>
           </div>
         </div>
         <div v-for="addonGroup in addonGroups" :key="addonGroup.id" class="col-sm-6 col-md-4">
@@ -68,7 +77,7 @@ import InputNumber from '@/shared/ui/form/InputNumber.vue';
 import InputText from '@/shared/ui/form/InputText.vue';
 import RalColorPicker from '@/shared/ui/RalColorPicker.vue';
 import ProductFormSummary from '@/features/calculator/components/ProductFormSummary.vue';
-import { productConfiguration, allCanvases, allColors, allFrameColors } from '@/features/calculator/data/configuration.js';
+import { productConfiguration, allCanvases, allColors, allFrameColors, allRalColors } from '@/features/calculator/data/configuration.js';
 import { usePriceCalculator } from '@/features/calculator/composables/usePriceCalculator.js';
 import { useRaspilCalculator } from '@/features/calculator/composables/useRaspilCalculator.js';
 import { useMotivationCalculator } from '@/features/calculator/composables/useMotivationCalculator.js';
@@ -81,6 +90,7 @@ const selectedCanvas = ref('');
 const selectedColor = ref('');
 const selectedFrameColor = ref('');
 const selectedRal = ref('');
+const selectedRalObject = ref(null);
 const showRalPicker = ref(false);
 const width = ref(null);
 const height = ref(null);
@@ -126,7 +136,7 @@ const frameColorOptions = computed(() => {
       value: color.id, 
       label: color.name 
     };
-    if (color.id === 'Ral' && selectedRal.value) {
+    if (color.id === 'Ral' && selectedRal.value && selectedFrameColor.value === 'Ral') {
       option.extra = `(${selectedRal.value})`;
     }
     return option;
@@ -230,6 +240,7 @@ const onFrameColorOptionClick = (colorId) => {
 
 const onRalColorSelect = (ralId) => {
   selectedRal.value = ralId;
+  selectedRalObject.value = allRalColors.find(c => c.id === ralId);
   showRalPicker.value = false;
 };
 
@@ -280,6 +291,7 @@ watch(selectedFrameColor, (newFrameColor, oldFrameColor) => {
     showRalPicker.value = true;
   } else {
     selectedRal.value = '';
+    selectedRalObject.value = null;
   }
 });
 
@@ -318,3 +330,13 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.ral-color-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+</style>

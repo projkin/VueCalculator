@@ -46,8 +46,8 @@ const close = () => {
   emit('update:show', false); // Затем скрываем панель
 };
 
-const selectColor = (ralId) => {
-  emit('select', ralId);
+const selectColor = (color) => {
+  emit('select', color);
   close();
 };
 </script>

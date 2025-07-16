@@ -28,7 +28,6 @@ export function usePriceCalculator() {
     if (requiresCanvas && !canvasData) { return 0; }
     if (requiresColor && !colorData) { return 0; }
     if (requiresFrameColor && !selectedFrameColorId) { return 0; }
-    if (selectedFrameColorId === 'Ral' && !selectedRalId) { return 0; }
     if (!width || !height) { return 0; }
 
     let pricePerSqm = 0;
