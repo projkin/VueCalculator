@@ -92,12 +92,19 @@ export function useCart() {
   });
 
   // --- Методы (Actions) ---
-  const addItem = (product) => {
-    items.value = [...items.value, {
-      ...product,
-      cartItemId: nextItemId++,
-      quantity: 1,
-    }];
+  const addItem = (itemToAdd) => {
+    const existingItem = items.value.find(item => item.id === itemToAdd.id && item.type === itemToAdd.type);
+
+    if (existingItem) {
+      existingItem.quantity += itemToAdd.quantity;
+    } else {
+      items.value = [...items.value, {
+        ...itemToAdd,
+        cartItemId: nextItemId++,
+        // Если количество не передано, по умолчанию 1
+        quantity: itemToAdd.quantity || 1, 
+      }];
+    }
   };
 
   const removeItem = (cartItemId) => {

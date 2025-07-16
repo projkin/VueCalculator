@@ -4,6 +4,7 @@
       v-for="service in services"
       :key="service.id"
       :service="service"
+      @add-to-cart="$emit('add-to-cart', $event)"
     />
   </ul>
 </template>
@@ -17,4 +18,6 @@ defineProps({
     required: true,
   },
 });
+
+defineEmits(['add-to-cart']);
 </script>
