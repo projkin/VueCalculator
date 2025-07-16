@@ -65,18 +65,18 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import BaseForm from '../../../components/ui/form/BaseForm.vue';
-import RadioGroup from '../../../components/ui/form/RadioGroup.vue';
-import InputNumber from '../../../components/ui/form/InputNumber.vue';
-import InputSelect from '../../../components/ui/form/InputSelect.vue';
-import InputText from '../../../components/ui/form/InputText.vue';
-import InputPhone from '../../../components/ui/form/InputPhone.vue';
-import Button from '../../../components/ui/Button.vue';
-import { useProductCart } from '../composables/useProductCart.js';
-import { useServiceCart } from '../composables/useServiceCart.js';
-import { useOrder } from '../composables/useOrder.js';
-import { useSubmitOrder } from '../composables/useSubmitOrder.js';
-import { createOrderPayload } from '../mappers/orderMapper.js';
+import BaseForm from '@/shared/ui/form/BaseForm.vue';
+import RadioGroup from '@/shared/ui/form/RadioGroup.vue';
+import InputNumber from '@/shared/ui/form/InputNumber.vue';
+import InputSelect from '@/shared/ui/form/InputSelect.vue';
+import InputText from '@/shared/ui/form/InputText.vue';
+import InputPhone from '@/shared/ui/form/InputPhone.vue';
+import Button from '@/shared/ui/Button.vue';
+import { useProductCart } from '@/features/cart/composables/useProductCart.js';
+import { useServiceCart } from '@/features/cart/composables/useServiceCart.js';
+import { useOrder } from '@/features/cart/composables/useOrder.js';
+import { useSubmitOrder } from '@/features/cart/composables/useSubmitOrder.js';
+import { createOrderPayload } from '@/features/cart/mappers/orderMapper.js';
 
 // Carts Data
 const { productItems, ralPaintingCost, ralPaintingCount } = useProductCart();

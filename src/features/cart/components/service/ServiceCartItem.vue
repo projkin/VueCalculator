@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import InputSpinner from '@/components/ui/form/InputSpinner.vue';
+import InputSpinner from '@/shared/ui/form/InputSpinner.vue';
 
 defineProps({ item: Object });
 defineEmits(['remove', 'update-quantity']);

@@ -13,8 +13,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import Button from '@/components/ui/Button.vue';
-import InputSpinner from '@/components/ui/form/InputSpinner.vue';
+import Button from '@/shared/ui/Button.vue';
+import InputSpinner from '@/shared/ui/form/InputSpinner.vue';
 
 const props = defineProps({
   service: {

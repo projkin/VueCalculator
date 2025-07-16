@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import Button from '../../../components/ui/Button.vue';
+import Button from '@/shared/ui/Button.vue';
 
 const props = defineProps({
   summary: {

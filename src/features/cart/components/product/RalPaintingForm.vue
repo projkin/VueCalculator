@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import InputSpinner from "@/components/ui/form/InputSpinner.vue";
+import InputSpinner from "@/shared/ui/form/InputSpinner.vue";
 import { useProductCart } from "@/features/cart/composables/useProductCart";
 
 const { ralPaintingCount, ralPaintingCost } = useProductCart();
