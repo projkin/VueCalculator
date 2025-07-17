@@ -52,44 +52,92 @@ const convertKeysToSnakeCase = (obj) => {
 export function createOrderPayload(form, cart, options) {
   const { deliveryOptions, orderTypeOptions, discountOptions } = options;
   console.log(cart);
-  
+
+  const currentDate = new Date().toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
   // 1. Создаем промежуточный объект с правильными текстовыми значениями
   // и уже с некоторыми snake_case ключами, которые мы явно задали ранее
   const payload = {
     order: {
-      ...form,
-      delivery_type: deliveryOptions.find(opt => opt.value === form.delivery_type)?.label || form.delivery_type,
-      order_type: orderTypeOptions.find(opt => opt.value === form.orderType)?.text || form.orderType,
+      // ...form,
+      delivery: deliveryOptions.find(opt => opt.value === form.delivery_type)?.label || form.delivery_type,
+      delivery_distance: form.delivery_distance,
       discount: discountOptions.find(opt => opt.value === form.discount)?.text || `${form.discount}`,
+      order_type: orderTypeOptions.find(opt => opt.value === form.orderType)?.text || form.orderType,
+      order_contract: form?.contract || '',
+      order_date: form?.date || currentDate,
+      name: form.name,
+      phone: form.phone,
+      comment: form.comment,
     },
     cart: {
-      ...(() => {
-        const { ralPaintingCost, ralPaintingCount, ...restOfCart } = cart;
-        return restOfCart;
-      })(),
+      ral_quantity: cart.ralPaintingCount,
+      price_total: cart.total,
+      price_delivery: cart.deliveryPrice,
+      price_ral: cart.ralPaintingCost,
+      motivation: cart.motivation,
+      services: cart.services,
+
       items: cart.items.map(item => ({
-        ...item,
+        ...(() => {
+          const { cartItemId, totalPrice, ...restOfItem } = item;
+          return restOfItem;
+        })(),
         profile: getProfileNameById(item.profile),
         canvas: getCanvasNameById(item.canvas),
         color: getColorNameById(item.color),
-        frame_color: getFrameColorNameById(item.frameColor),
+        frameColor: getFrameColorNameById(item.frameColor),
+        price: item.totalPrice,
         addons: (item.addons || []).map(addon => ({
           group_id: getAddonGroupNameById(item.profile, addon.groupId),
           option_id: getAddonOptionNameById(item.profile, addon.groupId, addon.optionId),
         })),
-        ral_color: item.ralCode || ''
       })),
-      ral_cost: cart.ralPaintingCost,
-      ral_count: cart.ralPaintingCount,
-      delivery_price: cart.deliveryPrice,
-    },
+
+    }
   };
 
 
+  // const payload = {
+  //   order: {
+  //     ...form,
+  //     delivery_type: deliveryOptions.find(opt => opt.value === form.delivery_type)?.label || form.delivery_type,
+  //     order_type: orderTypeOptions.find(opt => opt.value === form.orderType)?.text || form.orderType,
+  //     discount: discountOptions.find(opt => opt.value === form.discount)?.text || `${form.discount}`,
+  //   },
+  //   cart: {
+  //     ...(() => {
+  //       const { ralPaintingCost, ralPaintingCount, ...restOfCart } = cart;
+  //       return restOfCart;
+  //     })(),
+  //     items: cart.items.map(item => ({
+  //       ...item,
+  //       profile: getProfileNameById(item.profile),
+  //       canvas: getCanvasNameById(item.canvas),
+  //       color: getColorNameById(item.color),
+  //       frame_color: getFrameColorNameById(item.frameColor),
+  //       addons: (item.addons || []).map(addon => ({
+  //         group_id: getAddonGroupNameById(item.profile, addon.groupId),
+  //         option_id: getAddonOptionNameById(item.profile, addon.groupId, addon.optionId),
+  //       })),
+  //       ral_color: item.ralCode || ''
+  //     })),
+  //     ral_cost: cart.ralPaintingCost,
+  //     ral_count: cart.ralPaintingCount,
+  //     delivery_price: cart.deliveryPrice,
+  //   },
+  // };
+
   // Удаляем старые camelCase ключи, чтобы не было дублирования
-  delete payload.order.orderType;
+  // delete payload.order.orderType;
+
+  console.log(payload);
+
+  // 2. Рекурсивно конвертируем ВСЕ ключи в snake_case
+  const convertedPayload = convertKeysToSnakeCase(payload);
+  console.log(convertedPayload);
 
 
-  // 2. Рекурсивно конвертируем ВСЕ ключи в snake_case и возвращаем результат
-  return convertKeysToSnakeCase(payload);
+  // Возвращаем результат
+  return convertedPayload;
 }
