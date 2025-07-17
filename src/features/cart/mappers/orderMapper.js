@@ -51,7 +51,7 @@ const convertKeysToSnakeCase = (obj) => {
  */
 export function createOrderPayload(form, cart, options) {
   const { deliveryOptions, orderTypeOptions, discountOptions } = options;
-  console.log(cart);
+  // console.log(cart);
 
   const currentDate = new Date().toLocaleDateString('ru-RU', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
@@ -131,11 +131,11 @@ export function createOrderPayload(form, cart, options) {
   // Удаляем старые camelCase ключи, чтобы не было дублирования
   // delete payload.order.orderType;
 
-  console.log(payload);
+  // console.log(payload);
 
   // 2. Рекурсивно конвертируем ВСЕ ключи в snake_case
   const convertedPayload = convertKeysToSnakeCase(payload);
-  console.log(convertedPayload);
+  // console.log(convertedPayload);
 
 
   // Возвращаем результат
