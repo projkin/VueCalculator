@@ -157,7 +157,7 @@ const orderTypeOptions = [
 
 const submitOrder = () => {
   const cartData = {
-    products: productItems.value,
+    items: productItems.value,
     services: serviceItems.value,
     total: grandTotal.value,
     ralPaintingCost: ralPaintingCost.value,

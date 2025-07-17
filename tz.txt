@@ -1,1 +1,96 @@
-Uncaught ReferenceError: frameColorDisplay is not defined profileCalculator.js:43:9
+Новый заказ от 2025-07-17 11:46:29:
+Array
+(
+    [order] => Array
+        (
+            [delivery_type] => Самовывоз
+            [delivery_distance] => 0
+            [discount] => Нет
+            [contract] => 
+            [date] => 2025-07-17
+            [name] => 
+            [phone] => 
+            [comment] => 
+            [order_type] => Заказ
+        )
+
+    [cart] => Array
+        (
+            [items] => Array
+                (
+                    [0] => Array
+                        (
+                            [profile] => Ramochnaya
+                            [canvas] => Standartnoe
+                            [color] => White
+                            [frame_color] => White
+                            [width] => 1000
+                            [height] => 1000
+                            [addons] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [group_id] => Fasteners
+                                            [option_id] => Plunger
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [group_id] => Corners
+                                            [option_id] => Metal
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [group_id] => Handles
+                                            [option_id] => Metal
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [group_id] => WindowType
+                                            [option_id] => Aluminum
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [group_id] => ReinforcedInstall
+                                            [option_id] => Yes
+                                        )
+
+                                )
+
+                            [comment] => 
+                            [total_price] => 3500
+                            [motivation] => Array
+                                (
+                                    [assembler] => 230
+                                    [installer] => 580
+                                )
+
+                            [raspil] => Array
+                                (
+                                    [raspil_width] => 940
+                                    [raspil_height] => 940
+                                    [impost] => 953
+                                )
+
+                            [cart_item_id] => 2
+                            [quantity] => 1
+                        )
+                )
+
+            [services] => Array()
+            [total] => 19420
+            [delivery_price] => 0
+            [motivation] => Array
+                (
+                    [assembler] => 690
+                    [installer] => 2240
+                )
+
+            [ral_cost] => 0
+            [ral_count] => 0
+        )
+
+)

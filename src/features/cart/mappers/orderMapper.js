@@ -2,6 +2,14 @@
  * @file Этот модуль отвечает за преобразование внутренних данных приложения
  * в объект для передачи на сервер (DTO - Data Transfer Object).
  */
+import {
+  getProfileNameById,
+  getCanvasNameById,
+  getColorNameById,
+  getFrameColorNameById,
+  getAddonOptionNameById,
+  getAddonGroupNameById,
+} from '@/shared/utils/productHelpers';
 
 // --- Хелперы для преобразования ключей ---
 
@@ -43,7 +51,8 @@ const convertKeysToSnakeCase = (obj) => {
  */
 export function createOrderPayload(form, cart, options) {
   const { deliveryOptions, orderTypeOptions, discountOptions } = options;
-
+  console.log(cart);
+  
   // 1. Создаем промежуточный объект с правильными текстовыми значениями
   // и уже с некоторыми snake_case ключами, которые мы явно задали ранее
   const payload = {
@@ -58,6 +67,18 @@ export function createOrderPayload(form, cart, options) {
         const { ralPaintingCost, ralPaintingCount, ...restOfCart } = cart;
         return restOfCart;
       })(),
+      items: cart.items.map(item => ({
+        ...item,
+        profile: getProfileNameById(item.profile),
+        canvas: getCanvasNameById(item.canvas),
+        color: getColorNameById(item.color),
+        frame_color: getFrameColorNameById(item.frameColor),
+        addons: (item.addons || []).map(addon => ({
+          group_id: getAddonGroupNameById(item.profile, addon.groupId),
+          option_id: getAddonOptionNameById(item.profile, addon.groupId, addon.optionId),
+        })),
+        ral_color: item.ralCode || ''
+      })),
       ral_cost: cart.ralPaintingCost,
       ral_count: cart.ralPaintingCount,
       delivery_price: cart.deliveryPrice,
