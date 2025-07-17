@@ -4,7 +4,7 @@ import { RAL_COST } from '@/features/calculator/data/pricing.js';
 const PRODUCT_CART_STORAGE_KEY = 'calculator-product-cart';
 const RAL_PAINTING_COUNT_KEY = 'calculator-ral-count';
 
-const isRalItem = (item) => item && item.frameColor === 'RAL';
+const isRalItem = (item) => item && item.frameColor === 'Ral';
 
 const initialItems = JSON.parse(localStorage.getItem(PRODUCT_CART_STORAGE_KEY) || '[]');
 const items = ref(initialItems);
